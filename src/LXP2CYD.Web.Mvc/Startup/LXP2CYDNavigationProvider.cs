@@ -15,21 +15,34 @@ namespace LXP2CYD.Web.Startup
             context.Manager.MainMenu
                 .AddItem(
                     new MenuItemDefinition(
-                        PageNames.About,
-                        L("About"),
-                        url: "About",
-                        icon: "fas fa-info-circle"
+                        PageNames.Dashboard,
+                        L("Dashboard"),
+                        url: "",
+                        icon: "fas fa-tachometer-alt",
+                        requiresAuthentication: true
                     )
                 )
                 .AddItem(
                     new MenuItemDefinition(
-                        PageNames.Home,
-                        L("HomePage"),
-                        url: "",
-                        icon: "fas fa-home",
-                        requiresAuthentication: true
+                        PageNames.Centers,
+                        L("Centers"),
+                        url: "Centers",
+                        icon: "fas fa-building",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Centers)
                     )
-                ).AddItem(
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Appointments,
+                        L("Appointments"),
+                        url: "Appointments",
+                        icon: "fas fa-calendar",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Appointments)
+                    )
+                )
+                .AddItem(
                     new MenuItemDefinition(
                         PageNames.Tenants,
                         L("Tenants"),
@@ -40,7 +53,7 @@ namespace LXP2CYD.Web.Startup
                 ).AddItem(
                     new MenuItemDefinition(
                         PageNames.Users,
-                        L("Users"),
+                        L("Staff"),
                         url: "Users",
                         icon: "fas fa-users",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Users)
