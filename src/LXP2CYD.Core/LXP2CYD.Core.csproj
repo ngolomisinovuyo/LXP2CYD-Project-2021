@@ -19,4 +19,22 @@
     <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="6.5.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
+    <Folder Include="Settings\Provinces\" />
+    <Folder Include="Appointments\" />
+    <Folder Include="YearPlans\" />
+    <Folder Include="Settings\Cities\" />
+    <Folder Include="Programmes\" />
+    <Folder Include="Enquiries\" />
+    <Folder Include="LearnerModels\" />
+    <Folder Include="LearnerModels\Learners\" />
+    <Folder Include="LearnerModels\Subjects\" />
+    <Folder Include="LearnerModels\Resources\" />
+    <Folder Include="Authorization\Users\Staffs\" />
+    <Folder Include="LearnerModels\Schools\" />
+    <Folder Include="LearnerModels\Bursaries\" />
+    <Folder Include="LearnerModels\Enrollments\" />
+    <Folder Include="Settings\Regions\" />
+  </ItemGroup>
 </Project>

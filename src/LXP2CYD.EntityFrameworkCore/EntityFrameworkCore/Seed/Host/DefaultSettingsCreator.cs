@@ -26,8 +26,17 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
             }
 
             // Emailing
-            AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com", tenantId);
-            AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer", tenantId);
+            //AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com", tenantId);
+            //AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer", tenantId);
+            AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "no-reply@LPX2.com");
+            AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "Center management team");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.Host, "smtp.mailtrap.io");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.Port, "587");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.UserName, "f4e7b6f9b00c43");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.Password, "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");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.Domain, "smtp.mailtrap.io");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.EnableSsl, "false");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.UseDefaultCredentials, "false");
 
             // Languages
             AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en", tenantId);

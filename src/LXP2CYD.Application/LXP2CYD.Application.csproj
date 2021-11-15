@@ -14,4 +14,11 @@
   <ItemGroup>
     <ProjectReference Include="..\LXP2CYD.Core\LXP2CYD.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
+    <Folder Include="Settings\Regions\" />
+    <Folder Include="Settings\Regions\Dto\" />
+    <Folder Include="Settings\Provinces\" />
+    <Folder Include="Settings\Provinces\Dto\" />
+  </ItemGroup>
 </Project>

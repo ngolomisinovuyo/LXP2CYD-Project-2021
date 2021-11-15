@@ -26,12 +26,15 @@
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+    <None Include="Views\Regions\Index.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>Index.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LXP2CYD.Web.Core\LXP2CYD.Web.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -45,5 +48,20 @@
   <ItemGroup>
     <Folder Include="wwwroot\libs\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
+    <Folder Include="Views\Regions\" />
+    <Folder Include="wwwroot\view-resources\Views\Regions\" />
+    <Folder Include="Models\Settings\" />
+    <Folder Include="Models\Settings\Regions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Regions\Index.cshtml" />
+    <Content Remove="Views\Regions\_CcreateModal.cshtml" />
+    <Content Remove="Views\Regions\_CreateModal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Regions\_CreateModal.cshtml">
+      <Generator>RazorTemplatePreprocessor</Generator>
+      <LastGenOutput>_CreateModal.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
 </Project>

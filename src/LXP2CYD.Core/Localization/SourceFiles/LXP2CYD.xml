@@ -6,6 +6,8 @@
 		<text name="Centers" value="Centers" />
 		<text name="Appointments" value="Appointments" />
 		<text name="About" value="About" />
+        <text name="Regions" value="Regions" />
+        <text name="Description" value="Description"/>
 		<text name="WelcomeMessage" value="Welcome to LXP2CYD!" />
 		<text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
 		<text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
@@ -32,6 +34,7 @@
 		<text name="Tenants" value="Tenants" />
 		<text name="SavedSuccessfully" value="Saved successfully" />
 		<text name="CreateNewTenant" value="Create new tenant" />
+        <text name="CreateNewRegion" value="Create new region" />
 		<text name="AdminEmailAddress" value="Admin email address" />
 		<text name="AdminPassword" value="Admin password" />
 		<text name="Save" value="Save" />
