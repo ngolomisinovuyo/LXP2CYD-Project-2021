@@ -1695,6 +1695,9 @@ namespace LXP2CYD.Migrations
                     b.Property<int?>("ProvinceId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RegionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -1721,6 +1724,8 @@ namespace LXP2CYD.Migrations
                     b.HasIndex("LastModifierUserId");
 
                     b.HasIndex("ProvinceId");
+
+                    b.HasIndex("RegionId");
 
                     b.HasIndex("TenantId", "NormalizedEmailAddress");
 
@@ -2146,6 +2151,9 @@ namespace LXP2CYD.Migrations
 
                     b.Property<int?>("EditionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -2810,6 +2818,10 @@ namespace LXP2CYD.Migrations
                         .WithMany()
                         .HasForeignKey("ProvinceId");
 
+                    b.HasOne("LXP2CYD.Settings.Regions.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId");
+
                     b.Navigation("CreatorUser");
 
                     b.Navigation("DeleterUser");
@@ -2817,6 +2829,8 @@ namespace LXP2CYD.Migrations
                     b.Navigation("LastModifierUser");
 
                     b.Navigation("Province");
+
+                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("LXP2CYD.LearnerModels.Enrollments.Enrollment", b =>
@@ -2904,7 +2918,7 @@ namespace LXP2CYD.Migrations
                         .HasForeignKey("LastModifierUserId");
 
                     b.HasOne("LXP2CYD.Settings.Regions.Region", "Region")
-                        .WithMany()
+                        .WithMany("Centers")
                         .HasForeignKey("RegionId");
 
                     b.Navigation("CreatorUser");
@@ -3064,6 +3078,11 @@ namespace LXP2CYD.Migrations
             modelBuilder.Entity("LXP2CYD.Settings.Provinces.Province", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("LXP2CYD.Settings.Regions.Region", b =>
+                {
+                    b.Navigation("Centers");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,6 +8,7 @@ using LXP2CYD.Settings.Provinces.Dto;
 namespace LXP2CYD.Settings.Regions.Dto
 {
     [AutoMapFrom(typeof(Region))]
+    [AutoMapTo(typeof(Region))]
     public class RegionDto: EntityDto<int>
     {
         public string Name { get; set; }

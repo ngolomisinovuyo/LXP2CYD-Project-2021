@@ -10,9 +10,6 @@ namespace LXP2CYD.Users.Dto
     [AutoMapTo(typeof(User))]
     public class CreateUserDto : IShouldNormalize
     {
-        [Required]
-        [StringLength(AbpUserBase.MaxUserNameLength)]
-        public string UserName { get; set; }
 
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
@@ -26,6 +23,10 @@ namespace LXP2CYD.Users.Dto
         [EmailAddress]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         public string EmailAddress { get; set; }
+
+        [StringLength(AbpUserBase.MaxPhoneNumberLength)]
+        public string PhoneNumber { get; set; }
+        public int? RegionId { get; set; }
 
         public bool IsActive { get; set; }
 

@@ -5,12 +5,12 @@
 @{
     Layout = null;
 }
-@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditRegion")))
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Edit Region"))
 <form name="RegionEditForm" role="form" class="form-horizontal">
     <input type="hidden" name="Id" value="@Model.Region.Id" />
     <div class="modal-body">
         <div class="mt-4">
-            <div id="create-region-details">
+            <div id="edit-region-details">
                 <div class="form-group required">
                     <label class="px-1 col-form-label">@L("Name")</label>
                     <div class="col-md-12">
@@ -20,13 +20,13 @@
                 <div class="form-group">
                     <label class="px-1 col-form-label">@L("Description")</label>
                     <div class="col-md-12">
-                        <textarea placeholder="Describe region here..." value="@Model.Region.Description"  rows="2" class="form-control" name="Description"></textarea>
+                        <textarea placeholder="Describe region here..." rows="2" class="form-control" name="Description">@Model.Region.Description</textarea>
                     </div>
                 </div>
                 <div class="form-group required">
                     <label class="px-1 col-form-label">Province</label>
                     <div class="col-md-12">
-                        <select name="ProvinceId" value="@Model.Region.Id" class="form-control">
+                        <select name="ProvinceId" class="form-control">
                             <option value="">Select Province</option>
                             @foreach (var province in Model.Provinces)
                             {
@@ -36,7 +36,7 @@
                                 }
                                 else
                                 {
-                                    <option selected value="@province.Id">@province.Name</option>
+                                    <option value="@province.Id">@province.Name</option>
                                 }
 
                             }

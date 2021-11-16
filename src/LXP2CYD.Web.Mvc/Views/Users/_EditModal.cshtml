@@ -19,35 +19,46 @@
         </ul>
         <div class="tab-content mt-4">
             <div role="tabpanel" class="tab-pane container active" id="edit-user-details">
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="username">@L("UserName")</label>
-                    <div class="col-md-9">
-                        <input id="username" type="text" class="form-control" name="UserName" value="@Model.User.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" minlength="2">
+                <div class="row m-0 p-0">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label class="col-form-label" for="name">@L("Name")</label>
+                            <input id="name" type="text" class="form-control" name="Name" value="@Model.User.Name" required maxlength="@AbpUserBase.MaxNameLength">
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label class="col-form-label" for="surname">@L("Surname")</label>
+                                <input id="surname" type="text" class="form-control" name="Surname" value="@Model.User.Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="name">@L("Name")</label>
-                    <div class="col-md-9">
-                        <input id="name" type="text" class="form-control" name="Name" value="@Model.User.Name" required maxlength="@AbpUserBase.MaxNameLength">
+                <div class="row m-0 p-0">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label class="col-form-label" for="email">@L("EmailAddress")</label>
+             
+                                <input id="email" type="email" class="form-control" name="EmailAddress" value="@Model.User.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength">
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label class="col-form-label" for="email">Phone number</label>
+                            
+                            <input id="tel" type="email" class="form-control" name="PhoneNumber" value="@Model.User.PhoneNumber" required maxlength="@AbpUserBase.MaxPhoneNumberLength">
+                            
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="surname">@L("Surname")</label>
-                    <div class="col-md-9">
-                        <input id="surname" type="text" class="form-control" name="Surname" value="@Model.User.Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="email">@L("EmailAddress")</label>
-                    <div class="col-md-9">
-                        <input id="email" type="email" class="form-control" name="EmailAddress" value="@Model.User.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="IsActive">@L("IsActive")</label>
-                    <div class="col-md-9">
-                        <input id="IsActive" type="checkbox" name="IsActive" value="true" @(Model.User.IsActive ? "checked" : "") />
-                    </div>
+               
+
+               
+                <div class="form-group">
+                    <input id="IsActive" type="checkbox" name="IsActive" value="true" @(Model.User.IsActive ? "checked" : "") />
+                    <label class="col-form-label" for="IsActive">@L("IsActive")</label>
+
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane container" id="edit-user-roles">

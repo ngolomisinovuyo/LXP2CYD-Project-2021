@@ -30,31 +30,36 @@
             {
                 targets: 0,
                 className: 'control',
-                defaultContent: '',
+                defaultContent: ''
             },
             {
                 targets: 1,
-                data: 'userName',
-                sortable: false
-            },
-            {
-                targets: 2,
                 data: 'fullName',
                 sortable: false
             },
             {
-                targets: 3,
+                targets: 2,
                 data: 'emailAddress',
                 sortable: false
             },
             {
+                targets: 3,
+                data: 'phoneNumber',
+                sortable: false
+            },
+            {
                 targets: 4,
+                data: 'roleNames',
+                sortable: false
+            },
+            {
+                targets: 5,
                 data: 'isActive',
                 sortable: false,
                 render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
             },
             {
-                targets: 5,
+                targets: 6,
                 data: null,
                 sortable: false,
                 autoWidth: false,
@@ -153,7 +158,7 @@
     });
 
     $(document).on('click', 'a[data-target="#UserCreateModal"]', (e) => {
-        $('.nav-tabs a[href="#user-details"]').tab('show')
+        $('.nav-tabs a[href="#create-user-details"]').tab('show')
     });
 
     abp.event.on('user.edited', (data) => {

@@ -18,6 +18,7 @@ namespace LXP2CYD.MultiTenancy
             : base(tenancyName, name)
         {
         }
+        public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }

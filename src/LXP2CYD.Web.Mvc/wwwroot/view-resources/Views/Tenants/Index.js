@@ -44,12 +44,27 @@
             },
             {
                 targets: 3,
+                data: 'emailAddress',
+                sortable: false
+            },
+            {
+                targets: 4,
+                data: 'phoneNumber',
+                sortable: false
+            },
+            {
+                targets: 5,
+                data: 'manager',
+                sortable: false
+            },
+            {
+                targets: 6,
                 data: 'isActive',
                 sortable: false,
                 render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
             },
             {
-                targets: 4,
+                targets: 7,
                 data: null,
                 sortable: false,
                 autoWidth: false,

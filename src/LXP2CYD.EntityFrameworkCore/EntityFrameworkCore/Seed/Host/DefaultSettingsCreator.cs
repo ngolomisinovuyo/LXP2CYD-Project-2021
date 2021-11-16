@@ -33,7 +33,7 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
             AddSettingIfNotExists(EmailSettingNames.Smtp.Host, "smtp.mailtrap.io");
             AddSettingIfNotExists(EmailSettingNames.Smtp.Port, "587");
             AddSettingIfNotExists(EmailSettingNames.Smtp.UserName, "f4e7b6f9b00c43");
-            AddSettingIfNotExists(EmailSettingNames.Smtp.Password, "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");
+            AddSettingIfNotExists(EmailSettingNames.Smtp.Password, "5930de6e7bd705");
             AddSettingIfNotExists(EmailSettingNames.Smtp.Domain, "smtp.mailtrap.io");
             AddSettingIfNotExists(EmailSettingNames.Smtp.EnableSsl, "false");
             AddSettingIfNotExists(EmailSettingNames.Smtp.UseDefaultCredentials, "false");

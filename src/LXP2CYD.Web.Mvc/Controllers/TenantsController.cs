@@ -5,6 +5,7 @@ using Abp.AspNetCore.Mvc.Authorization;
 using LXP2CYD.Authorization;
 using LXP2CYD.Controllers;
 using LXP2CYD.MultiTenancy;
+using LXP2CYD.Web.Models.Tenants;
 
 namespace LXP2CYD.Web.Controllers
 {
@@ -18,12 +19,27 @@ namespace LXP2CYD.Web.Controllers
             _tenantAppService = tenantAppService;
         }
 
-        public ActionResult Index() => View();
+        public async Task<ActionResult> Index()
+        {
+            var regions = await _tenantAppService.GetRegions();
+            var model = new TenantListViewModel
+            {
+                Regions = regions
+            };
+            return View(model);
+        }
 
         public async Task<ActionResult> EditModal(int tenantId)
         {
             var tenantDto = await _tenantAppService.GetAsync(new EntityDto(tenantId));
-            return PartialView("_EditModal", tenantDto);
+            var regions = await _tenantAppService.GetRegions();
+            var model = new EditTenantModalViewModel
+            {
+                Tenant = tenantDto,
+                Regions = regions
+            };
+            return PartialView("_EditModal", model);
+
         }
     }
 }

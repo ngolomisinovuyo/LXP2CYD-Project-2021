@@ -22,8 +22,12 @@ namespace LXP2CYD.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var roles = (await _userAppService.GetRoles()).Items;
+            var regions = await _userAppService.GetRegions();
+            var provinces = await _userAppService.GetProvinces();
             var model = new UserListViewModel
             {
+                Provinces = provinces,
+                Regions = regions,
                 Roles = roles
             };
             return View(model);
@@ -33,9 +37,13 @@ namespace LXP2CYD.Web.Controllers
         {
             var user = await _userAppService.GetAsync(new EntityDto<long>(userId));
             var roles = (await _userAppService.GetRoles()).Items;
+            var regions = await _userAppService.GetRegions();
+            var provinces = await _userAppService.GetProvinces();
             var model = new EditUserModalViewModel
             {
                 User = user,
+                Provinces = provinces,
+                Regions = regions,
                 Roles = roles
             };
             return PartialView("_EditModal", model);

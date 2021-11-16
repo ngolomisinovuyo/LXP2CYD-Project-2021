@@ -52,6 +52,7 @@
     <Folder Include="wwwroot\view-resources\Views\Regions\" />
     <Folder Include="Models\Settings\" />
     <Folder Include="Models\Settings\Regions\" />
+    <Folder Include="Models\Tenants\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Regions\Index.cshtml" />

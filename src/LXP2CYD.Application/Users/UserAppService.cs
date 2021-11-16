@@ -1,5 +1,6 @@
 ﻿ using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,7 +21,12 @@ using LXP2CYD.Authorization.Accounts;
 using LXP2CYD.Authorization.Roles;
 using LXP2CYD.Authorization.Users;
 using LXP2CYD.Roles.Dto;
+using LXP2CYD.Settings.Provinces;
+using LXP2CYD.Settings.Provinces.Dto;
+using LXP2CYD.Settings.Regions;
+using LXP2CYD.Settings.Regions.Dto;
 using LXP2CYD.Users.Dto;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +41,9 @@ namespace LXP2CYD.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IRepository<Region, int> _regionRepository;
+        private readonly IRepository<Province, int> _provinceRepository;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -43,6 +52,9 @@ namespace LXP2CYD.Users
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
+            IWebHostEnvironment environment,
+            IRepository<Region, int> regionRepository,
+            IRepository<Province, int> provinceRepository,
             LogInManager logInManager)
             : base(repository)
         {
@@ -52,6 +64,9 @@ namespace LXP2CYD.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+            _environment = environment;
+            _regionRepository = regionRepository;
+            _provinceRepository = provinceRepository;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -59,7 +74,7 @@ namespace LXP2CYD.Users
             CheckCreatePermission();
 
             var user = ObjectMapper.Map<User>(input);
-
+            user.UserName = input.EmailAddress;
             user.TenantId = AbpSession.TenantId;
             user.IsEmailConfirmed = true;
 
@@ -72,7 +87,7 @@ namespace LXP2CYD.Users
                 foreach (var role in input.RoleNames)
                 {
                     var userRole = _roleManager.Roles.Single(r => r.Name == role);
-                    
+
                     if (userRole != null)
                     {
                         List<Permission> grantedPermissions = new List<Permission>();
@@ -92,20 +107,20 @@ namespace LXP2CYD.Users
                         }
                         else if (userRole.Name == StaticRoleNames.Host.Provincial_Liaison || userRole.Name == StaticRoleNames.Host.Regional_Coordinator)
                         {
-                            if(userRole.Name != StaticRoleNames.Host.Learner && userRole.Name != StaticRoleNames.Host.Employee)
+                            if (userRole.Name != StaticRoleNames.Host.Learner && userRole.Name != StaticRoleNames.Host.Employee)
                             {
-                                permissionsToGrant.Add(PermissionNames.Pages_Centers);
+                                permissionsToGrant.Add(PermissionNames.Pages_Tenants);
                                 permissionsToGrant.Add(PermissionNames.Pages_Staff);
-                            } 
-                            if(userRole.Name != StaticRoleNames.Host.Learner)
+                            }
+                            if (userRole.Name != StaticRoleNames.Host.Learner)
                             {
                                 permissionsToGrant.Add(PermissionNames.Pages_Appointments);
                             }
-                            if(userRole.Name == StaticRoleNames.Host.Provincial_Liaison)
+                            if (userRole.Name == StaticRoleNames.Host.Provincial_Liaison)
                             {
                                 permissionsToGrant.Add(PermissionNames.Pages_Coordinators);
                             }
-                            
+
                             grantedPermissions = PermissionManager
                             .GetAllPermissions()
                             .Where(p => permissionsToGrant.Contains(p.Name))
@@ -295,6 +310,54 @@ namespace LXP2CYD.Users
 
             return true;
         }
+        public async Task<IReadOnlyList<ProvinceDto>> GetProvinces()
+        {
+            var provinces = await _provinceRepository.GetAllListAsync();
+            return ObjectMapper.Map<IReadOnlyList<ProvinceDto>>(provinces);
+        }
+        public async Task<IReadOnlyList<RegionDto>> GetRegions()
+        {
+            var regions = await _regionRepository.GetAllListAsync();
+            return ObjectMapper.Map<IReadOnlyList<RegionDto>>(regions);
+        }
+        private async Task SendConfirmation(UserConfirmAccountDto input)
+        {
+            var userId = _abpSession.UserId;
+            //var user = _userManager.FirstOrDefault(x => x.Id == userId);
+            //var tenant = await _tenantManager.GetByIdAsync((int)_session.TenantId);
+            //send an email here
+            string body = string.Empty;
+
+            //using streamreader for reading my html template   
+
+            var path = Path.Combine(_environment.WebRootPath, "templates/email/success-email.html");
+
+            using (StreamReader reader = new StreamReader(path))
+            {
+                body = reader.ReadToEnd();
+            }
+            string resetPasswordlink = $"{input.BaseUrl}/account/reset-password?code=" + input.Code + "&id=" + input.ToUserId;
+            //string fromName = user.Name;
+            string link = $"{input.BaseUrl}/account/tenant";
+            body = body.Replace("#Name", input.Name);
+            body = body.Replace("#Link", link);
+            body = body.Replace("#ResetPasswordLink", resetPasswordlink);
+            //body = body.Replace("#FromName", fromName);
+            //body = body.Replace("#DomainName", tenant.TenancyName);
+            body = body.Replace("#UserName", input.UserName);
+            body = body.Replace("#Password", input.Password);
+            //var credentials = await _accountService.GetSettings();
+            //if (credentials.Count >= 5)
+            //{
+            //    await Emailer.SmptSend(to: input.Email, subject: "Sales Hack New Account Registration!", body: body, isBodyHtml: true, credentials);
+            //}
+            //else
+            //{
+            //    Emailer.Send(to: input.Email, subject: "Sales Hack New Account Registration!", body: body, fromEmail: user.EmailAddress, isBodyHtml: true);
+            //}
+
+        }
+
     }
 }
 

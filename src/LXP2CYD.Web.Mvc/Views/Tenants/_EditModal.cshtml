@@ -1,30 +1,37 @@
 ﻿@using LXP2CYD.MultiTenancy.Dto
 @using LXP2CYD.Web.Models.Common.Modals
-@model TenantDto
+@using LXP2CYD.Web.Models.Tenants
+@model EditTenantModalViewModel
+
 @{
     Layout = null;
 }
-@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditTenant")))
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Edit Center"))
 <form name="TenantEditForm" role="form" class="form-horizontal">
-    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="Id" value="@Model.Tenant.Id" />
     <div class="modal-body">
-        <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="tenancy-name">@L("TenancyName")</label>
-            <div class="col-md-9">
-                <input id="tenancy-name" type="text" class="form-control" name="TenancyName" value="@Model.TenancyName" required maxlength="64" minlength="2">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label" for="tenancy-name">Login name</label>
+                    <input id="tenancy-name" type="text" class="form-control" name="TenancyName" value="@Model.Tenant.TenancyName" required maxlength="64" minlength="2">
+                </div>
             </div>
         </div>
-        <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="name">@L("Name")</label>
-            <div class="col-md-9">
-                <input id="name" type="text" class="form-control" name="Name" value="@Model.Name" required maxlength="128">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label" for="name">@L("Name")</label>
+                    <input id="name" type="text" class="form-control" name="Name" value="@Model.Tenant.Name" required maxlength="128">
+                </div>
             </div>
         </div>
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="isactive">@L("IsActive")</label>
-            <div class="col-md-9">
-                <input id="isactive" type="checkbox" name="IsActive" value="true" @(Model.IsActive ? "checked" : "") />
-            </div>
+       
+       
+        <div class="form-group">
+            <input id="isactive" type="checkbox" name="IsActive" value="true" @(Model.Tenant.IsActive ? "checked" : "") />
+            <label class="col-form-label" for="isactive">@L("IsActive")</label>
+
         </div>
     </div>
     @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")

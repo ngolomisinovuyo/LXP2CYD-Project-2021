@@ -8,6 +8,7 @@ namespace LXP2CYD.Authorization.Roles
             public const string Learner = "Learner";
             public const string Regional_Coordinator = "Regional Coordinator";
             public const string Provincial_Liaison = "Provincial Liaison";
+            public const string Center_Manager = "Center Manager";
             public const string Volunteer = "Volunteer";
             public const string Employee = "Employee";
         }
@@ -18,6 +19,7 @@ namespace LXP2CYD.Authorization.Roles
             public const string Learner = "Learner";
             public const string Regional_Coordinator = "Regional Coordinator";
             public const string Provincial_Liaison = "Provincial Liaison";
+            public const string Center_Manager = "Center Manager";
             public const string Volunteer = "Volunteer";
             public const string Employee = "Employee";
         }

@@ -122,7 +122,7 @@
             type: 'POST',
             dataType: 'html',
             success: function (content) {
-                $('#RegionsEditModal div.modal-content').html(content);
+                $('#RegionEditModal div.modal-content').html(content);
             },
             error: function (e) {
             }

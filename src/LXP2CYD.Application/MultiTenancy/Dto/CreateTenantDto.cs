@@ -17,13 +17,32 @@ namespace LXP2CYD.MultiTenancy.Dto
         [StringLength(AbpTenantBase.MaxNameLength)]
         public string Name { get; set; }
 
-        [Required]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
-        public string AdminEmailAddress { get; set; }
+        public string EmailAddress { get; set; }
 
-        [StringLength(AbpTenantBase.MaxConnectionStringLength)]
-        public string ConnectionString { get; set; }
+        [Required]
+        [StringLength(AbpUserBase.MaxPhoneNumberLength)]
+        public string PhoneNumber { get; set; }
 
+
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+
+        public int? RegionId { get; set; }
+
+        public long? MangerId { get; set; }
+
+        // Manager Information
+        [StringLength(AbpUserBase.MaxEmailAddressLength)]
+        public string ManagerEmailAddress { get; set; }
+
+        [StringLength(AbpUserBase.MaxPhoneNumberLength)]
+        public string ManagerPhoneNumber { get; set; }
+
+        [StringLength(AbpUserBase.MaxNameLength)]
+        public string ManagerName { get; set; }
+        [StringLength(AbpUserBase.MaxSurnameLength)]
+        public string ManagerSurname { get; set; }
         public bool IsActive {get; set;}
     }
 }
