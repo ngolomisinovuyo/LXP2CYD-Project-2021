@@ -1,5 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+@using LXP2CYD.Web.Models.Common.Modals
+@using LXP2CYD.Web.Models.Settings.Regions
+@model RegionListViewModel
 @{
+    Layout = null;
 }
+
+<div class="modal fade" id="AppointmentCreateModal" tabindex="-1" role="dialog" aria-labelledby="AppointmentCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Create new appointment"))
+            <form name="AppointmentCreateForm" role="form" class="form-horizontal">
+   
+                <div class="modal-body">
+                    <div class="mt-4">
+                        <div id="create-appointment-details">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Start Time</label>
+                                        <div class="input-group date" id="startTimePicker">
+                                            <input name="StartDate" type='text' class="form-control" />
+                                            <span class="input-group-text">
+                                                <i class="bi-clock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Start Time</label>
+                                        <div class="input-group date" id="endTimePicker">
+                                            <input name="EndDate" type='text' class="form-control" />
+                                            <span class="input-group-text">
+                                                <i class="bi-clock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="px-1 col-form-label">@L("Description")</label>
+                                <div class="col-md-12">
+                                    <textarea placeholder="Describe region here..." rows="2" class="form-control" name="Description"></textarea>
+                                </div>
+                            </div>
+                            @*<div class="form-group required">
+                        <label class="px-1 col-form-label">Province</label>
+                        <div class="col-md-12">
+                            <select name="ProvinceId" class="form-control">
+                                <option value="">Select Province</option>
+                                @foreach (var province in Model.Provinces)
+                                {
+                                    <option value="@province.Id">@province.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>*@
+                        </div>
+
+                    </div>
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+        </div>
+    </div>
+</div>

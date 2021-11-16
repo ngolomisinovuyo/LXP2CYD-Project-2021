@@ -18,7 +18,7 @@ namespace LXP2CYD.Web.Startup
                         PageNames.Dashboard,
                         L("Dashboard"),
                         url: "",
-                        icon: "fas fa-tachometer-alt",
+                        icon: "bi-speedometer2",
                         requiresAuthentication: true
                     )
                 )
@@ -27,7 +27,7 @@ namespace LXP2CYD.Web.Startup
                         PageNames.Tenants,
                         L("Centers"),
                         url: "Tenants",
-                        icon: "fas fa-building",
+                        icon: "bi-door-open",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Tenants)
                     )
                 ).AddItem(
@@ -35,7 +35,7 @@ namespace LXP2CYD.Web.Startup
                         PageNames.Users,
                         L("Users"),
                         url: "Users",
-                        icon: "fas fa-users",
+                        icon: "bi-people",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Users)
                     )
                 )
@@ -44,16 +44,16 @@ namespace LXP2CYD.Web.Startup
                         PageNames.Appointments,
                         L("Appointments"),
                         url: "Appointments",
-                        icon: "fas fa-calendar",
+                        icon: "bi-calendar",
                         requiresAuthentication: true,
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Appointments)
                     )
                 ).AddItem(
                     new MenuItemDefinition(
-                        PageNames.Appointments,
+                        PageNames.YearPlans,
                         L("YearPlans"),
                         url: "YearPlans",
-                        icon: "fas fa-calendar",
+                        icon: "bi-calendar3",
                         requiresAuthentication: true,
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Year_Plans)
                     )
@@ -80,20 +80,20 @@ namespace LXP2CYD.Web.Startup
                     new MenuItemDefinition(
                         "Settings",
                         L("Settings"),
-                        icon: "fas fa-cog"
+                        icon: "bi-gear"
                     ).AddItem(
                             new MenuItemDefinition(
                                 "Provinces",
                                 new FixedLocalizableString("Provinces"),
                                 url: "Provinces",
-                                icon: "fas fa-building"
+                                icon: "bi-building"
                             )
                         ).AddItem(
                             new MenuItemDefinition(
                                 "Cities",
                                 new FixedLocalizableString("Cities"),
                                 url: "Cities",
-                                icon: "fas fa-city"
+                                icon: "bi-building"
                             )
                     )
                 );

@@ -1,24 +1,24 @@
 ﻿(function ($) {
-    var _userService = abp.services.app.user,
+    var _appointmentService = abp.services.app.user,
         l = abp.localization.getSource('LXP2CYD'),
-        _$modal = $('#UserCreateModal'),
+        _$modal = $('#AppointmentCreateModal'),
         _$form = _$modal.find('form'),
-        _$table = $('#UsersTable');
+        _$table = $('#AppointmentsTable');
 
-    var _$usersTable = _$table.DataTable({
+    var _$appointmentsTable = _$table.DataTable({
         paging: true,
         serverSide: true,
         listAction: {
-            ajaxFunction: _userService.getAll,
+            ajaxFunction: _appointmentService.getAll,
             inputFilter: function () {
-                return $('#UsersSearchForm').serializeFormToObject(true);
+                return $('#AppointmentsSearchForm').serializeFormToObject(true);
             }
         },
         buttons: [
             {
                 name: 'refresh',
                 text: '<i class="fas fa-redo-alt"></i>',
-                action: () => _$usersTable.draw(false)
+                action: () => _$appointmentsTable.draw(false)
             }
         ],
         responsive: {
@@ -61,10 +61,10 @@
                 defaultContent: '',
                 render: (data, type, row, meta) => {
                     return [
-                        `   <button type="button" class="btn btn-sm bg-secondary edit-user" data-user-id="${row.id}" data-toggle="modal" data-target="#UserEditModal">`,
+                        `   <button type="button" class="btn btn-sm bg-secondary edit-appointment" data-appointment-id="${row.id}" data-toggle="modal" data-target="#UserEditModal">`,
                         `       <i class="fas fa-pencil-alt"></i> ${l('Edit')}`,
                         '   </button>',
-                        `   <button type="button" class="btn btn-sm bg-danger delete-user" data-user-id="${row.id}" data-user-name="${row.name}">`,
+                        `   <button type="button" class="btn btn-sm bg-danger delete-appointment" data-appointment-id="${row.id}" data-appointment-name="${row.name}">`,
                         `       <i class="fas fa-trash"></i> ${l('Delete')}`,
                         '   </button>'
                     ].join('');
@@ -81,7 +81,20 @@
             }
         }
     });
-
+    _$form.find('#startTimePicker').datetimepicker({
+        "allowInputToggle": true,
+        "showClose": true,
+        "showClear": true,
+        "showTodayButton": true,
+        "format": "HH:mm:ss",
+    });
+    _$form.find('#endTimePicker').datetimepicker({
+        "allowInputToggle": true,
+        "showClose": true,
+        "showClear": true,
+        "showTodayButton": true,
+        "format": "HH:mm:ss",
+    });
     _$form.find('.save-button').on('click', (e) => {
         e.preventDefault();
 
@@ -89,18 +102,11 @@
             return;
         }
 
-        var user = _$form.serializeFormToObject();
-        user.roleNames = [];
-        var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        if (_$roleCheckboxes) {
-            for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-                var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-                user.roleNames.push(_$roleCheckbox.val());
-            }
-        }
-
+        var appointment = _$form.serializeFormToObject();
+ 
+     
         abp.ui.setBusy(_$modal);
-        _userService.create(user).done(function () {
+        _userService.create(appointment).done(function () {
             _$modal.modal('hide');
             _$form[0].reset();
             abp.notify.info(l('SavedSuccessfully'));
@@ -111,10 +117,10 @@
     });
 
     $(document).on('click', '.delete-user', function () {
-        var userId = $(this).attr("data-user-id");
-        var userName = $(this).attr('data-user-name');
+        var appointmentId = $(this).attr("data-appointment-id");
+        var appointmentName = $(this).attr('data-appointment-name');
 
-        deleteUser(userId, userName);
+        deleteUser(appointmentId, appointmentName);
     });
 
     function deleteUser(userId, userName) {
@@ -126,7 +132,7 @@
             (isConfirmed) => {
                 if (isConfirmed) {
                     _userService.delete({
-                        id: userId
+                        id: appointmentId
                     }).done(() => {
                         abp.notify.info(l('SuccessfullyDeleted'));
                         _$usersTable.ajax.reload();
@@ -136,27 +142,23 @@
         );
     }
 
-    $(document).on('click', '.edit-user', function (e) {
-        var userId = $(this).attr("data-user-id");
+    $(document).on('click', '.edit-appointment', function (e) {
+        var appointmentId = $(this).attr("data-appointment-id");
 
         e.preventDefault();
         abp.ajax({
-            url: abp.appPath + 'Users/EditModal?userId=' + userId,
+            url: abp.appPath + 'Appointment/EditModal?appointmentId=' + appointmentId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {
-                $('#UserEditModal div.modal-content').html(content);
+                $('#AppointmentEditModal div.modal-content').html(content);
             },
             error: function (e) {
             }
         });
     });
 
-    $(document).on('click', 'a[data-target="#UserCreateModal"]', (e) => {
-        $('.nav-tabs a[href="#user-details"]').tab('show')
-    });
-
-    abp.event.on('user.edited', (data) => {
+    abp.event.on('appointment.edited', (data) => {
         _$usersTable.ajax.reload();
     });
 
