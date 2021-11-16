@@ -7,6 +7,7 @@
         public const string Pages_Centers = "Pages.Centers";
         public const string Pages_Staff = "Pages.Staff";
         public const string Pages_Appointments = "Pages.Appoitnments";
+        public const string Pages_Year_Plans = "Pages.Year.Plans";
         public const string Pages_Learners = "Pages.Learners";
         public const string Pages_Liaisons = "Pages.Liaison";
         public const string Pages_Coordinators = "Pages.Coordinators";

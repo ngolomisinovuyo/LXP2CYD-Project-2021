@@ -5,6 +5,7 @@
 		<text name="Staff" value="Staff" />
 		<text name="Centers" value="Centers" />
 		<text name="Appointments" value="Appointments" />
+		<text name="YearPlans" value="Year Plans" />
 		<text name="About" value="About" />
         <text name="Regions" value="Regions" />
         <text name="Description" value="Description"/>

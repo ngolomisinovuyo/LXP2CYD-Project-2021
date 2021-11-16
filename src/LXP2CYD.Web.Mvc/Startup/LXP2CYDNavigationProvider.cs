@@ -50,6 +50,15 @@ namespace LXP2CYD.Web.Startup
                     )
                 ).AddItem(
                     new MenuItemDefinition(
+                        PageNames.Appointments,
+                        L("YearPlans"),
+                        url: "YearPlans",
+                        icon: "fas fa-calendar",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Year_Plans)
+                    )
+                ).AddItem(
+                    new MenuItemDefinition(
                         PageNames.Roles,
                         L("Roles"),
                         url: "Roles",

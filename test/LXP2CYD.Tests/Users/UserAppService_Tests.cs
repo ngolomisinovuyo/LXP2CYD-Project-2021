@@ -39,7 +39,7 @@ namespace LXP2CYD.Tests.Users
                     Name = "John",
                     Surname = "Nash",
                     Password = "123qwe",
-                    UserName = "john.nash"
+                    //UserName = "john.nash"
                 });
 
             await UsingDbContextAsync(async context =>
