@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Settings\" />
     <Folder Include="Settings\Provinces\" />
-    <Folder Include="Appointments\" />
     <Folder Include="YearPlans\" />
     <Folder Include="Settings\Cities\" />
     <Folder Include="Programmes\" />

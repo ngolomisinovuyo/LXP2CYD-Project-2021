@@ -7,7 +7,7 @@ using LXP2CYD.Authorization.Users;
 namespace LXP2CYD.Appointments
 {
     [Table("AppAppointmentAttendees")]
-    public class AppintmentAttendee: FullAuditedEntity<int>, IMayHaveTenant
+    public class AppointmentAttendee: FullAuditedEntity<int>, IMayHaveTenant
     {
         public int AppointmentId { get; set; }
         public long AttendeeId { get; set; }

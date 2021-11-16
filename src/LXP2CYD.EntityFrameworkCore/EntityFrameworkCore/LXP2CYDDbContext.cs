@@ -35,7 +35,7 @@ namespace LXP2CYD.EntityFrameworkCore
         public DbSet<Item> Items { get; set; }
         public DbSet<BudgetItem> BudgetItems { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<AppintmentAttendee> AppintmentAttendees { get; set; }
+        public DbSet<AppointmentAttendee> AppintmentAttendees { get; set; }
         public DbSet<AppointmentType> AppointmentTypes { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<City> Cities { get; set; }
