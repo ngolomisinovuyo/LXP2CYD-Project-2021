@@ -1,4 +1,6 @@
 ﻿@using LXP2CYD.Web.Startup
+@using LXP2CYD.Web.Models.Appointment
+@model AppointmentListViewModel
 @{
     ViewBag.Title = L("Appointments");
     ViewBag.CurrentPageName = PageNames.Appointments;
@@ -9,58 +11,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
         <script src="~/js/bootstrap-datetimepicker.min.js"></script>
-        <script>
-        $(document).ready(function () {
-        var events = [];
-        GenerateCalender(events);
-            @*$.ajax({
-                type: "GET",
-                url: "/home/GetEvents",
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        events.push({
-                            title: v.Subject,
-                            description: v.Description,
-                            start: moment(v.Start),
-                            end: v.End != null ? moment(v.End) : null,
-                            color: v.ThemeColor,
-                            allDay : v.IsFullDay
-                        });
-                    })
-                    GenerateCalender(events);
-                },
-                error: function (error) {
-                    alert('failed');
-                }
-            })*@
-            function GenerateCalender(events) {
-                $('#calender').fullCalendar('destroy');
-                $('#calender').fullCalendar({
-                    contentHeight: 400,
-                    defaultDate: new Date(),
-                    timeFormat: 'h(:mm)a',
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,basicWeek,basicDay,agenda'
-                    },
-                    eventLimit: true,
-                    eventColor: '#378006',
-                    events: events,
-                    eventClick: function (calEvent, jsEvent, view) {
-                        $('#myModal #eventTitle').text(calEvent.title);
-                        var $description = $('<div/>');
-                        $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-                        if (calEvent.end != null) {
-                            $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
-                        }
-                        $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-                        $('#myModal #pDetails').empty().html($description);
-                        $('#myModal').modal();
-                    }
-                })
-            }
-        })</script>
+  
         <script src="~/view-resources/Views/Appointments/Index.js" asp-append-version="true"></script>
 
     </environment>
@@ -92,7 +43,7 @@
 
     </div>
 </section>
-@await Html.PartialAsync("~/Views/Appointments/_CreateModal.cshtml")
+@await Html.PartialAsync("~/Views/Appointments/_CreateModal.cshtml", Model)
 <div class="modal fade" id="AppointmemtEditModal" tabindex="-1" role="dialog" aria-labelledby="AppointmemtEditModalLabel" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

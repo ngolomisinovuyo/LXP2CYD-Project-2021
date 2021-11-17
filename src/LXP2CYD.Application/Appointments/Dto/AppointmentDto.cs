@@ -13,6 +13,7 @@ namespace LXP2CYD.Appointments.Dto
     [AutoMapTo(typeof(Appointment))]
     public class AppointmentDto: EntityDto<int>
     {
+        public string Title { get; set; }
         public long HostId { get; set; }
         public AppointmentType Type { get; set; }
         public DateTime StartTime { get; set; }

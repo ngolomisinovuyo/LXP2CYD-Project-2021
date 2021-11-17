@@ -1330,61 +1330,6 @@ namespace LXP2CYD.Migrations
                     b.ToTable("AbpWebhookSubscriptions");
                 });
 
-            modelBuilder.Entity("LXP2CYD.Appointments.AppintmentAttendee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Arrived")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ArrivedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("AttendeeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.HasIndex("AttendeeId");
-
-                    b.ToTable("AppAppointmentAttendees");
-                });
-
             modelBuilder.Entity("LXP2CYD.Appointments.Appointment", b =>
                 {
                     b.Property<int>("Id")
@@ -1437,6 +1382,10 @@ namespace LXP2CYD.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
@@ -1447,6 +1396,65 @@ namespace LXP2CYD.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("AppAppointments");
+                });
+
+            modelBuilder.Entity("LXP2CYD.Appointments.AppointmentAttendee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Arrived")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ArrivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("AttendeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("AttendeeId");
+
+                    b.ToTable("AppAppointmentAttendees");
                 });
 
             modelBuilder.Entity("LXP2CYD.Appointments.AppointmentType", b =>
@@ -2732,7 +2740,24 @@ namespace LXP2CYD.Migrations
                     b.Navigation("WebhookEvent");
                 });
 
-            modelBuilder.Entity("LXP2CYD.Appointments.AppintmentAttendee", b =>
+            modelBuilder.Entity("LXP2CYD.Appointments.Appointment", b =>
+                {
+                    b.HasOne("LXP2CYD.Authorization.Users.User", "Host")
+                        .WithMany()
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LXP2CYD.Appointments.AppointmentType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId");
+
+                    b.Navigation("Host");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("LXP2CYD.Appointments.AppointmentAttendee", b =>
                 {
                     b.HasOne("LXP2CYD.Appointments.Appointment", "Appointment")
                         .WithMany()
@@ -2749,23 +2774,6 @@ namespace LXP2CYD.Migrations
                     b.Navigation("Appointment");
 
                     b.Navigation("Attendee");
-                });
-
-            modelBuilder.Entity("LXP2CYD.Appointments.Appointment", b =>
-                {
-                    b.HasOne("LXP2CYD.Authorization.Users.User", "Host")
-                        .WithMany()
-                        .HasForeignKey("HostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LXP2CYD.Appointments.AppointmentType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
-
-                    b.Navigation("Host");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("LXP2CYD.Authorization.Roles.Role", b =>

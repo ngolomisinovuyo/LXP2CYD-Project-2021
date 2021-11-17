@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
@@ -9,6 +10,8 @@ namespace LXP2CYD.Appointments
     [Table("AppAppointments")]
     public class Appointment: FullAuditedEntity<int>, IMayHaveTenant
     {
+        [StringLength(255)]
+        public string Title { get; set; }
         public long HostId { get; set; }
         public AppointmentType Type { get; set; }
         public DateTime StartTime { get; set; }

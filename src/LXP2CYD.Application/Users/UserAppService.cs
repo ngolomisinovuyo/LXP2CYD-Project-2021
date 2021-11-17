@@ -9,6 +9,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
@@ -91,43 +92,22 @@ namespace LXP2CYD.Users
                     if (userRole != null)
                     {
                         List<Permission> grantedPermissions = new List<Permission>();
-                        List<string> permissionsToGrant = new List<string>
+                        List<string> permissionsToGrant = new List<string>();
+                        using (CurrentUnitOfWork.DisableFilter(AbpDataFilters.MayHaveTenant, AbpDataFilters.MustHaveTenant))
                         {
-                            PermissionNames.Pages_Users
-                        };
-                        if (userRole.Name == StaticRoleNames.Host.Admin)
-                        {
+                            var centerManagerRole = _roleManager.Roles.Include(x => x.Permissions).Single(r => r.Name == role);
 
-                            permissionsToGrant = PermissionFinder.GetAllPermissions(new LXP2CYDAuthorizationProvider())
-                         .Where(p => !p.MultiTenancySides.HasFlag(MultiTenancySides.Tenant)).Select(x => x.Name).ToList();
-                            grantedPermissions = PermissionManager
-                             .GetAllPermissions()
-                             .Where(p => permissionsToGrant.Contains(p.Name))
-                             .ToList();
-                        }
-                        else if (userRole.Name == StaticRoleNames.Host.Provincial_Liaison || userRole.Name == StaticRoleNames.Host.Regional_Coordinator)
-                        {
-                            if (userRole.Name != StaticRoleNames.Host.Learner && userRole.Name != StaticRoleNames.Host.Employee)
+                            if (centerManagerRole != null)
                             {
-                                permissionsToGrant.Add(PermissionNames.Pages_Tenants);
-                                permissionsToGrant.Add(PermissionNames.Pages_Staff);
+                                permissionsToGrant = centerManagerRole.Permissions.Select(x => x.Name).ToList();
                             }
-                            if (userRole.Name != StaticRoleNames.Host.Learner)
-                            {
-                                permissionsToGrant.Add(PermissionNames.Pages_Appointments);
-                            }
-                            if (userRole.Name == StaticRoleNames.Host.Provincial_Liaison)
-                            {
-                                permissionsToGrant.Add(PermissionNames.Pages_Coordinators);
-                            }
-
-                            grantedPermissions = PermissionManager
-                            .GetAllPermissions()
-                            .Where(p => permissionsToGrant.Contains(p.Name))
-                            .ToList();
-
 
                         }
+                        
+                        grantedPermissions = PermissionManager
+                        .GetAllPermissions()
+                        .Where(p => permissionsToGrant.Contains(p.Name))
+                        .ToList();
                         await _roleManager.SetGrantedPermissionsAsync(userRole, grantedPermissions);
                     }
                 }

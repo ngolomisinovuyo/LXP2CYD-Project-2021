@@ -79,23 +79,24 @@ namespace LXP2CYD.MultiTenancy
 
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get static role ids
 
-                // Grant all permissions to admin role
-
-                List<string> permissionsToGrant = new List<string>();
-                using(CurrentUnitOfWork.DisableFilter(AbpDataFilters.MayHaveTenant, AbpDataFilters.MustHaveTenant))
-                {
-                    var centerManagerRole = _roleManager.Roles.Include(x=>x.Permissions).Single(r => r.Name == StaticRoleNames.Tenants.Center_Manager);
-                    
-                    if(centerManagerRole != null)
-                    {
-                        permissionsToGrant = centerManagerRole.Permissions.Select(x => x.Name).ToList();
-                    }
-
-                }
+                
                 var role = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Host.Admin);
 
                 if (role != null)
                 {
+                    // Grant all permissions to admin role
+
+                    List<string> permissionsToGrant = new List<string>();
+                    using (CurrentUnitOfWork.DisableFilter(AbpDataFilters.MayHaveTenant, AbpDataFilters.MustHaveTenant))
+                    {
+                        var centerManagerRole = _roleManager.Roles.Include(x => x.Permissions).Single(r => r.Name == StaticRoleNames.Tenants.Center_Manager);
+
+                        if (centerManagerRole != null)
+                        {
+                            permissionsToGrant = centerManagerRole.Permissions.Select(x => x.Name).ToList();
+                        }
+
+                    }
                     var grantedPermissions = PermissionManager
                            .GetAllPermissions()
                            .Where(p => permissionsToGrant.Contains(p.Name))
