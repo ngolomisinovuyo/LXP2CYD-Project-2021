@@ -5,7 +5,11 @@ using LXP2CYD.Appointments.Dto;
 using LXP2CYD.Authorization;
 using LXP2CYD.Controllers;
 using LXP2CYD.Web.Models.Appointment;
+using LXP2CYD.Web.Models.Appointments;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +21,12 @@ namespace LXP2CYD.Web.Controllers
     public class AppointmentsController : LXP2CYDControllerBase
     {
         private readonly IAppointmentAppService _appointmentAppService;
-        public AppointmentsController(IAppointmentAppService appointmentAppService)
+        private readonly IWebHostEnvironment _env;
+        public AppointmentsController(IAppointmentAppService appointmentAppService,
+            IWebHostEnvironment env)
         {
             _appointmentAppService = appointmentAppService;
+            _env = env;
         }
         public async Task<IActionResult> Index()
         {
@@ -51,6 +58,26 @@ namespace LXP2CYD.Web.Controllers
             };
             var appointemts = await _appointmentAppService.GetAllAsync(input);
             return Json(appointemts.Items);
+        }
+        [HttpGet]
+        public async Task<IActionResult> PrintAppointment(int id)
+        {
+            var appointment = await _appointmentAppService.GetAsync(new EntityDto<int>(id));
+            if (appointment == default)
+                return RedirectToAction(nameof(Index), new { IsSuccess = true });
+            var dataDic = new ViewDataDictionary(ViewData) { { "Title", "Appointment" }, { "Layout", null } };
+            return new ViewAsPdf("AppointmentPdf", new AppointmentPdf
+            {
+                AppointmentType = appointment.Type,
+                CenterNotes = appointment.Notes,
+                Date = appointment.StartTime,
+                Time = appointment.StartTime,
+                Status = appointment.Status,
+                WebRootPath = _env.WebRootPath
+            }, dataDic)
+            {
+                FileName = "Appointment_" + appointment.Id + ".pdf"
+            };
         }
     }
 }

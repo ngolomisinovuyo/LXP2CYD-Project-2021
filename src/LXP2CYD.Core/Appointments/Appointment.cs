@@ -14,6 +14,7 @@ namespace LXP2CYD.Appointments
         public string Title { get; set; }
         public long HostId { get; set; }
         public AppointmentType Type { get; set; }
+        public AppointmentStatus Status { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Notes { get; set; }

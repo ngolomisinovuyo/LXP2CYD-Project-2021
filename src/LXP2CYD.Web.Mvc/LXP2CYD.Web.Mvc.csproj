@@ -55,7 +55,6 @@
     <Folder Include="Models\Settings\" />
     <Folder Include="Models\Settings\Regions\" />
     <Folder Include="Models\Tenants\" />
-    <Folder Include="Models\Appointment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Regions\Index.cshtml" />
