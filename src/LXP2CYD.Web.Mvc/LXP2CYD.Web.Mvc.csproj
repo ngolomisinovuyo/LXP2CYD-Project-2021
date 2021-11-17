@@ -40,10 +40,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.2" />
     <PackageReference Include="Abp.HangFire" Version="6.5.0" />
     <PackageReference Include="Abp.RedisCache" Version="6.5.0" />
     <PackageReference Include="Abp.Castle.Log4Net" Version="6.5.0" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\libs\" />

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Abp.AutoMapper;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace LXP2CYD.Programmes
+namespace LXP2CYD.Programmes.Dtos
 {
-    [Table("AppProgrammes")]
-    public class Programme: FullAuditedEntity<int>, IMayHaveTenant
+    [AutoMapTo(typeof(Programme))]
+    public class CreateProgrammeDto
     {
         public string Description { get; set; }
         public string Title { get; set; }
@@ -26,6 +27,5 @@ namespace LXP2CYD.Programmes
 
         public string ImageUrl { get; set; }
         public int? TenantId { get; set; }
-        public virtual IList<ProgrammeReservation> Rsvps { get; set; }
     }
 }
