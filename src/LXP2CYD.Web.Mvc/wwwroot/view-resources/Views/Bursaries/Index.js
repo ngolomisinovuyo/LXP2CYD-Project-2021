@@ -1,17 +1,17 @@
 ﻿(function ($) {
-    var _userService = abp.services.app.user,
+    var _bursaryService = abp.services.app.bursary,
         l = abp.localization.getSource('LXP2CYD'),
-        _$modal = $('#UserCreateModal'),
+        _$modal = $('#BursaryCreateModal'),
         _$form = _$modal.find('form'),
-        _$table = $('#UsersTable');
+        _$table = $('#BursariesTable');
 
-    var _$usersTable = _$table.DataTable({
+    var _$bursariesTable = _$table.DataTable({
         paging: true,
         serverSide: true,
         listAction: {
-            ajaxFunction: _userService.getAll,
+            ajaxFunction: _bursaryService.getAll,
             inputFilter: function () {
-                return $('#UsersSearchForm').serializeFormToObject(true);
+                return $('#BursariesSearchForm').serializeFormToObject(true);
             }
         },
         buttons: [
@@ -30,31 +30,36 @@
             {
                 targets: 0,
                 className: 'control',
-                defaultContent: '',
+                defaultContent: ''
             },
             {
                 targets: 1,
-                data: 'userName',
+                data: 'name',
                 sortable: false
             },
             {
                 targets: 2,
-                data: 'fullName',
+                data: 'companyName',
                 sortable: false
             },
             {
                 targets: 3,
-                data: 'emailAddress',
+                data: 'link',
                 sortable: false
             },
             {
                 targets: 4,
+                data: 'documentUrl',
+                sortable: false
+            },
+            {
+                targets: 5,
                 data: 'isActive',
                 sortable: false,
                 render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
             },
             {
-                targets: 5,
+                targets: 6,
                 data: null,
                 sortable: false,
                 autoWidth: false,
@@ -89,35 +94,35 @@
             return;
         }
 
-        var user = _$form.serializeFormToObject();
-        user.roleNames = [];
-        var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        if (_$roleCheckboxes) {
-            for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-                var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-                user.roleNames.push(_$roleCheckbox.val());
-            }
-        }
+        var busrary = _$form.serializeFormToObject();
+        //user.roleNames = [];
+        //var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
+        //if (_$roleCheckboxes) {
+        //    for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
+        //        var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
+        //        user.roleNames.push(_$roleCheckbox.val());
+        //    }
+        //}
 
         abp.ui.setBusy(_$modal);
-        _userService.create(user).done(function () {
+        _bursaryService.create(busrary).done(function () {
             _$modal.modal('hide');
             _$form[0].reset();
             abp.notify.info(l('SavedSuccessfully'));
-            _$usersTable.ajax.reload();
+            _$bursariesTable.ajax.reload();
         }).always(function () {
             abp.ui.clearBusy(_$modal);
         });
     });
 
     $(document).on('click', '.delete-user', function () {
-        var userId = $(this).attr("data-user-id");
-        var userName = $(this).attr('data-user-name');
+        var bursaryId = $(this).attr("data-bursary-id");
+        var bursaryName = $(this).attr('data-bursary-name');
 
-        deleteUser(userId, userName);
+        deleteUser(bursaryId, bursaryName);
     });
 
-    function deleteUser(userId, userName) {
+    function deleteBursary(userId, userName) {
         abp.message.confirm(
             abp.utils.formatString(
                 l('AreYouSureWantToDelete'),
@@ -125,38 +130,38 @@
             null,
             (isConfirmed) => {
                 if (isConfirmed) {
-                    _userService.delete({
+                    _bursaryService.delete({
                         id: userId
                     }).done(() => {
                         abp.notify.info(l('SuccessfullyDeleted'));
-                        _$usersTable.ajax.reload();
+                        _$bursariesTable.ajax.reload();
                     });
                 }
             }
         );
     }
 
-    $(document).on('click', '.edit-user', function (e) {
-        var userId = $(this).attr("data-user-id");
+    $(document).on('click', '.edit-bursary', function (e) {
+        var bursaryId = $(this).attr("data-bursary-id");
 
         e.preventDefault();
         abp.ajax({
-            url: abp.appPath + 'Users/EditModal?userId=' + userId,
+            url: abp.appPath + 'Busraries/EditModal?bursary=' + bursaryId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {
-                $('#UserEditModal div.modal-content').html(content);
+                $('#BursaryEditModal div.modal-content').html(content);
             },
             error: function (e) {
             }
         });
     });
 
-    $(document).on('click', 'a[data-target="#UserCreateModal"]', (e) => {
-        $('.nav-tabs a[href="#user-details"]').tab('show')
+    $(document).on('click', 'a[data-target="#BursaryCreateModal"]', (e) => {
+        $('.nav-tabs a[href="#create-bursary-details"]').tab('show')
     });
 
-    abp.event.on('user.edited', (data) => {
+    abp.event.on('bursary.edited', (data) => {
         _$usersTable.ajax.reload();
     });
 

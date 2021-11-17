@@ -25,5 +25,7 @@ namespace LXP2CYD.Appointments.Dto
         public string Location { get; set; }
         public UserDto Host { get; set; }
         public int? TenantId { get; set; }
+
+        public IReadOnlyList<AppointmentAttendeeDto> AppointmentAttendees { get; set; }
     }
 }

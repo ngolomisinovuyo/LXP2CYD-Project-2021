@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
@@ -24,5 +25,7 @@ namespace LXP2CYD.Appointments
         [ForeignKey(nameof(HostId))]
         public User Host { get; set; }
         public int? TenantId { get; set; }
+
+        public IReadOnlyList<AppointmentAttendee> AppointmentAttendees { get; set; }
     }
 }

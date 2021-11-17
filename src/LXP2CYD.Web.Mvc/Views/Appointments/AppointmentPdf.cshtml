@@ -1,0 +1,36 @@
+﻿@model LXP2CYD.Web.Models.Appointments.AppointmentPdf
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <environment include="Development">
+        <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/style-starter.css" rel="stylesheet" />
+    </environment>
+
+</head>
+<body>
+    <div class="container" style="padding-top:20px">
+        <span class="col-sm-2 col-sm-4">
+            <div class="blog-card-single shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="grids5-info position-relative">
+                    <img src=@System.IO.Path.Combine(Model.WebRootPath,"Images/appointment-slots.jpg") alt="" class="img-fluid" />
+                </div>
+                <div class="content-main-top">
+                    <div class="content-top mb-4 mt-3">
+                        <ul class="list-unstyled d-flex align-items-center justify-content-between">
+                            <li> <i class="fa fa-calendar" aria-hidden="true"></i> @Model.Date.ToShortDateString()</li>
+                            <li> <i class="fa fa-clock-o" aria-hidden="true"></i>@Model.Time.ToShortTimeString()</li>
+                        </ul>
+                    </div>
+                    <h4><a>@Model.AppointmentType.Name</a></h4>
+                    <p>@Model.Message</p>
+                    <br />
+
+                    <p>@Model.Status</p>
+                </div>
+            </div>
+        </span>
+    </div>
+</body>
+</html>

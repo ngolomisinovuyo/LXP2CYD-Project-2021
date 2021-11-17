@@ -60,6 +60,11 @@ namespace LXP2CYD.Appointments
             }
             return await GetAsync(new EntityDto<int>(id));
         }
+        public override async Task<AppointmentDto> GetAsync(EntityDto<int> input)
+        {
+            var appointment = await _appointmentRepository.GetAll().Include(x => x.AppointmentAttendees).FirstOrDefaultAsync(x => x.Id == input.Id);
+            return ObjectMapper.Map<AppointmentDto>(appointment);
+        }
         public async Task<IReadOnlyList<UserDto>> GetAttendees()
         {
             List<UserDto> users = new List<UserDto>();

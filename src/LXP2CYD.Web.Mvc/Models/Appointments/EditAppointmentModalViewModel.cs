@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LXP2CYD.Appointments.Dto;
 using LXP2CYD.Users.Dto;
 
-namespace LXP2CYD.Web.Models.Appointment
+namespace LXP2CYD.Web.Models.Appointments
 {
     public class EditAppointmentModalViewModel
     {

@@ -1,0 +1,42 @@
+﻿@model LXP2CYD.Web.Models.Bursaries.EditBursaryModalViewModel
+
+@{ ViewData["Title"] = "Bursary";
+Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container-fluid h-100">
+    <div class="title-heading-w3 text-center mx-auto mb-5 pb-sm-4">
+        <h3 class="title-main"> <span>Bursaries</span></h3>
+        <hr />
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Bursary.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Bursary.Title)
+        </dd>
+        <dt class="col-sm-3">
+            <i class="fa fa-calendar"></i> @Html.DisplayNameFor(model => model.Bursary.CompanyName)
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Bursary.CompanyName
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(c => c.Bursary.Link)
+        </dt>
+        <dd class="col-sm-9">
+            <a href="@Model.Bursary.Link" target="_blank">@Model.Bursary.Link</a>
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Bursary.DocumentUrl)
+        </dt>
+        <dd class="col-sm-9">
+              @Model.Bursary.DocumentUrl        
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="ShowAllBursaries" class="btn btn-sm btn-primary">Back to List</a>
+</div>

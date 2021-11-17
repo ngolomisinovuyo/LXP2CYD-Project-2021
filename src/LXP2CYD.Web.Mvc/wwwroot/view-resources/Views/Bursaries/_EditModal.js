@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    var _userService = abp.services.app.user,
+    var _bursaryService = abp.services.app.bursary,
         l = abp.localization.getSource('LXP2CYD'),
         _$modal = $('#UserEditModal'),
         _$form = _$modal.find('form');
@@ -9,21 +9,21 @@
             return;
         }
 
-        var user = _$form.serializeFormToObject();
-        user.roleNames = [];
-        var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        if (_$roleCheckboxes) {
-            for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-                var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-                user.roleNames.push(_$roleCheckbox.val());
-            }
-        }
+        var bursary = _$form.serializeFormToObject();
+        //user.roleNames = [];
+        //var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
+        //if (_$roleCheckboxes) {
+        //    for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
+        //        var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
+        //        user.roleNames.push(_$roleCheckbox.val());
+        //    }
+        //}
 
         abp.ui.setBusy(_$form);
-        _userService.update(user).done(function () {
+        _bursaryService.update(bursary).done(function () {
             _$modal.modal('hide');
             abp.notify.info(l('SavedSuccessfully'));
-            abp.event.trigger('user.edited', user);
+            abp.event.trigger('bursary.edited', bursary);
         }).always(function () {
             abp.ui.clearBusy(_$form);
         });

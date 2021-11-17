@@ -4,7 +4,6 @@ using LXP2CYD.Appointments;
 using LXP2CYD.Appointments.Dto;
 using LXP2CYD.Authorization;
 using LXP2CYD.Controllers;
-using LXP2CYD.Web.Models.Appointment;
 using LXP2CYD.Web.Models.Appointments;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
