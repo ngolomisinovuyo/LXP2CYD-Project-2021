@@ -1,48 +1,58 @@
 ﻿@using LXP2CYD.Web.Startup
+@using LXP2CYD.Web.Models.Common.Modals
 @model LXP2CYD.Web.Models.Bursaries.EditBursaryModalViewModel
 
 @{ ViewData["Title"] = "EditBursary";
-    Layout = "~/Views/Shared/_UserAdminLayout.cshtml"; }
+    Layout = null;}
 
-<h1>EditBursary</h1>
 
-<h4>Bursary</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditBursary">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@Model.Bursary.Id" />
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Edit bursary"))
+<form role="form" class="form-horizontal" asp-action="Edit">
+    <input type="hidden" name="Id" value="@Model.Bursary.Id" />
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row px">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label">Title</label>
+                    <input value="@Model.Bursary.Title" placeholder="What's the bursary about?" type="text" class="form-control" name="Title" required>
 
-            <div class="form-group">
-                <label asp-for="@Model.Bursary.Title" class="control-label"></label>
-                <input asp-for="@Model.Bursary.Title" class="form-control" />
-                <span asp-validation-for="@Model.Bursary.Title" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Bursary.CompanyName" class="control-label"></label>
-                <input asp-for="@Model.Bursary.CompanyName" class="form-control" />
-                <span asp-validation-for="@Model.Bursary.CompanyName" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label">Company Name</label>
+                    <input value="@Model.Bursary.CompanyName" placeholder="Company issuing the bursary" type="text" class="form-control" name="CompanyName" required>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Bursary.Link" class="control-label"></label>
-                <input asp-for="@Model.Bursary.Link" class="form-control" />
-                <span asp-validation-for="@Model.Bursary.Link" class="text-danger"></span>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label">Link</label>
+                    <input type="text" value="@Model.Bursary.Link" placeholder="Link to the bursary age" class="form-control" name="Link" required>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Bursary.DocumentUrl" class="control-label"></label>
-                <input asp-for="@Model.Bursary.DocumentUrl" class="form-control" />
-                <span asp-validation-for="@Model.Bursary.DocumentUrl" class="text-danger"></span>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col-md-12">
+                <div class="form-group required">
+                    <label class="col-form-label">Document Url</label>
+                    <input type="text" value="@Model.Bursary.DocumentUrl" placeholder="Attachments" class="form-control" name="DocumentUrl">
+
+                </div>
             </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="ListBursaries">Back to List</a>
-</div>
-
+    @*<div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>*@
+    @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>
+<script src="~/view-resources/Views/Bursaries/_EditModal.js" asp-append-version="true"></script>

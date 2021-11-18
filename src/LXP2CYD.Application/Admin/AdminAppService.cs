@@ -3,6 +3,7 @@ using Abp.Domain.Repositories;
 using AutoMapper.Configuration;
 using LXP2CYD.Authorization.Accounts;
 using LXP2CYD.Authorization.Users;
+using LXP2CYD.Bursaries;
 using LXP2CYD.Email;
 using LXP2CYD.Leaners.Dtos;
 using LXP2CYD.LearnerModels.Learners;

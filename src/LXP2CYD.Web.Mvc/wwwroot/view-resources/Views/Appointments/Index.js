@@ -137,7 +137,7 @@
 
         delete appointment.EndDate;
         delete appointment.StartDate;
-        //console.log(_$form.find('#select-attendees').val());
+
 
         appointment.CreateAppointmentAttendeeDtos = _$form.find('#select-attendees').val().map(x => JSON.parse(x));
         abp.ui.setBusy(_$modal);

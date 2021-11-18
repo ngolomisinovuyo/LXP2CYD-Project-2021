@@ -23,9 +23,10 @@ namespace LXP2CYD.Programmes.Dtos
 
         public string Link { get; set; }
 
-        public string EventCategory { get; set; }
+        public ProgrammeCategory Category { get; set; }
 
         public string ImageUrl { get; set; }
         public int? TenantId { get; set; }
+        public IReadOnlyList<CreateProgrammeReservationDto> CreateProgrammeReservationDtos { get; set; }
     }
 }

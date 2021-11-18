@@ -1,7 +1,7 @@
 ﻿(function ($) {
     var _bursaryService = abp.services.app.bursary,
         l = abp.localization.getSource('LXP2CYD'),
-        _$modal = $('#UserEditModal'),
+        _$modal = $('#BursaryEditModal'),
         _$form = _$modal.find('form');
 
     function save() {
@@ -10,14 +10,6 @@
         }
 
         var bursary = _$form.serializeFormToObject();
-        //user.roleNames = [];
-        //var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        //if (_$roleCheckboxes) {
-        //    for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-        //        var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-        //        user.roleNames.push(_$roleCheckbox.val());
-        //    }
-        //}
 
         abp.ui.setBusy(_$form);
         _bursaryService.update(bursary).done(function () {

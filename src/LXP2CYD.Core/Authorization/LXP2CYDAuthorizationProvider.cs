@@ -12,6 +12,7 @@ namespace LXP2CYD.Authorization
             context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
             context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
             context.CreatePermission(PermissionNames.Pages_Settings, L("Settings"));
+            context.CreatePermission(PermissionNames.Pages_Staff, L("Employee"));
             context.CreatePermission(PermissionNames.Pages_Centers, L("Centers"));
             context.CreatePermission(PermissionNames.Pages_Appointments, L("Appointments"));
             context.CreatePermission(PermissionNames.Pages_Year_Plans, L("YearPlans"));

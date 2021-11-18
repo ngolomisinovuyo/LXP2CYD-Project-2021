@@ -134,7 +134,7 @@
     });
 
     abp.event.on('region.edited', (data) => {
-        _$usersTable.ajax.reload();
+        _$regionsTable.ajax.reload();
     });
 
     _$modal.on('shown.bs.modal', () => {
@@ -144,12 +144,12 @@
     });
 
     $('.btn-search').on('click', (e) => {
-        _$usersTable.ajax.reload();
+        _$regionsTable.ajax.reload();
     });
 
     $('.txt-search').on('keypress', (e) => {
         if (e.which == 13) {
-            _$usersTable.ajax.reload();
+            _$regionsTable.ajax.reload();
             return false;
         }
     });

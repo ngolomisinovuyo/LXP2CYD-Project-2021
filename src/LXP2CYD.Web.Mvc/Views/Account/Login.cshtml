@@ -18,10 +18,10 @@
     <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
     <input type="hidden" name="returnUrlHash" />
     <div class="input-group mb-3">
-        <input type="text" name="usernameOrEmailAddress" class="form-control" placeholder="@L("UserNameOrEmail")" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength">
+        <input type="text" name="usernameOrEmailAddress" class="form-control" placeholder="Username or email" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-user"></span>
+                <span class="bi-person"></span>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         <input type="password" class="form-control" name="Password" autocomplete="password" placeholder="@L("Password")" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+                <span class="bi-lock"></span>
             </div>
         </div>
     </div>

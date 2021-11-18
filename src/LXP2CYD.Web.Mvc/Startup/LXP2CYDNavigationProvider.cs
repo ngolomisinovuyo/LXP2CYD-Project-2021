@@ -57,6 +57,26 @@ namespace LXP2CYD.Web.Startup
                         requiresAuthentication: true,
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Year_Plans)
                     )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.YearPlans,
+                        L("Bursaries"),
+                        url: "Bursaries",
+                        icon: "bi bi-mortarboard",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff, PermissionNames.Pages_Learners)
+                    )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.YearPlans,
+                        L("Programmes"),
+                        url: "Programmes",
+                        icon: "bi bi-calendar-event",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff, PermissionNames.Pages_Learners)
+                    )
                 ).AddItem(
                     new MenuItemDefinition(
                         PageNames.Roles,

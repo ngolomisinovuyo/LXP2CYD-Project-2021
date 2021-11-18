@@ -19,7 +19,7 @@
         delete appointment.StartDate;
         appointment.CreateAppointmentAttendeeDtos = _$form.find('#select-attendees').val().map(x => JSON.parse(x));
         abp.ui.setBusy(_$form);
-        _appointmentService.update(appointment).done(function () {
+        _appointmentService.update(appointmemt).done(function () {
             _$modal.modal('hide');
             abp.notify.info(l('SavedSuccessfully'));
             abp.event.trigger('appointment.edited', user);

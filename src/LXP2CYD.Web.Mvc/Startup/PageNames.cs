@@ -6,6 +6,8 @@
         public const string Staff = "Staff";
         public const string Centers = "Centers";
         public const string Appointments = "Appointments";
+        public const string Bursaries = "Bursaries";
+        public const string Programmes = "Programmes";
         public const string YearPlans = "Year Plans";
         public const string Tenants = "Tenants";
         public const string Users = "Users";

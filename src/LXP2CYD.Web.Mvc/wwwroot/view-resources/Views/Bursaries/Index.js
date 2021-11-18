@@ -34,7 +34,7 @@
             },
             {
                 targets: 1,
-                data: 'name',
+                data: 'title',
                 sortable: false
             },
             {
@@ -66,10 +66,10 @@
                 defaultContent: '',
                 render: (data, type, row, meta) => {
                     return [
-                        `   <button type="button" class="btn btn-sm bg-secondary edit-user" data-user-id="${row.id}" data-toggle="modal" data-target="#UserEditModal">`,
+                        `   <button type="button" class="btn btn-sm bg-secondary edit-bursary" data-bursary-id="${row.id}" data-toggle="modal" data-target="#BursaryEditModal">`,
                         `       <i class="fas fa-pencil-alt"></i> ${l('Edit')}`,
                         '   </button>',
-                        `   <button type="button" class="btn btn-sm bg-danger delete-user" data-user-id="${row.id}" data-user-name="${row.name}">`,
+                        `   <button type="button" class="btn btn-sm bg-danger delete-bursary" data-bursary-id="${row.id}" data-bursary-title="${row.title}">`,
                         `       <i class="fas fa-trash"></i> ${l('Delete')}`,
                         '   </button>'
                     ].join('');
@@ -95,14 +95,7 @@
         }
 
         var busrary = _$form.serializeFormToObject();
-        //user.roleNames = [];
-        //var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        //if (_$roleCheckboxes) {
-        //    for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-        //        var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-        //        user.roleNames.push(_$roleCheckbox.val());
-        //    }
-        //}
+ 
 
         abp.ui.setBusy(_$modal);
         _bursaryService.create(busrary).done(function () {
@@ -115,18 +108,18 @@
         });
     });
 
-    $(document).on('click', '.delete-user', function () {
+    $(document).on('click', '.delete-bursary', function () {
         var bursaryId = $(this).attr("data-bursary-id");
-        var bursaryName = $(this).attr('data-bursary-name');
+        var bursaryTitle = $(this).attr('data-bursary-title');
 
-        deleteUser(bursaryId, bursaryName);
+        deleteBursary(bursaryId, bursaryTitle);
     });
 
-    function deleteBursary(userId, userName) {
+    function deleteBursary(userId, bursaryTitle) {
         abp.message.confirm(
             abp.utils.formatString(
                 l('AreYouSureWantToDelete'),
-                userName),
+                bursaryTitle),
             null,
             (isConfirmed) => {
                 if (isConfirmed) {
@@ -143,10 +136,9 @@
 
     $(document).on('click', '.edit-bursary', function (e) {
         var bursaryId = $(this).attr("data-bursary-id");
-
         e.preventDefault();
         abp.ajax({
-            url: abp.appPath + 'Busraries/EditModal?bursary=' + bursaryId,
+            url: abp.appPath + 'Bursaries/EditModal?id=' + bursaryId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {
@@ -162,7 +154,7 @@
     });
 
     abp.event.on('bursary.edited', (data) => {
-        _$usersTable.ajax.reload();
+        _$bursariesTable.ajax.reload();
     });
 
     _$modal.on('shown.bs.modal', () => {
@@ -172,12 +164,12 @@
     });
 
     $('.btn-search').on('click', (e) => {
-        _$usersTable.ajax.reload();
+        _$bursariesTable.ajax.reload();
     });
 
     $('.txt-search').on('keypress', (e) => {
         if (e.which == 13) {
-            _$usersTable.ajax.reload();
+            _$bursariesTable.ajax.reload();
             return false;
         }
     });

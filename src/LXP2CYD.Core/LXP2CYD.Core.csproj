@@ -24,13 +24,11 @@
     <Folder Include="Settings\Provinces\" />
     <Folder Include="YearPlans\" />
     <Folder Include="Settings\Cities\" />
-    <Folder Include="Programmes\" />
     <Folder Include="Enquiries\" />
     <Folder Include="LearnerModels\" />
     <Folder Include="LearnerModels\Learners\" />
     <Folder Include="LearnerModels\Subjects\" />
     <Folder Include="LearnerModels\Resources\" />
-    <Folder Include="Authorization\Users\Staffs\" />
     <Folder Include="LearnerModels\Schools\" />
     <Folder Include="LearnerModels\Bursaries\" />
     <Folder Include="LearnerModels\Enrollments\" />

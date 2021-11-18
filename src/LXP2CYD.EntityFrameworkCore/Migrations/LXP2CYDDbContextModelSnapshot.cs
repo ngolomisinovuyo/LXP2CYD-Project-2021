@@ -2227,6 +2227,9 @@ namespace LXP2CYD.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -2247,9 +2250,6 @@ namespace LXP2CYD.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("EventCategory")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -2760,7 +2760,7 @@ namespace LXP2CYD.Migrations
             modelBuilder.Entity("LXP2CYD.Appointments.AppointmentAttendee", b =>
                 {
                     b.HasOne("LXP2CYD.Appointments.Appointment", "Appointment")
-                        .WithMany()
+                        .WithMany("AppointmentAttendees")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3054,6 +3054,11 @@ namespace LXP2CYD.Migrations
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("LXP2CYD.Appointments.Appointment", b =>
+                {
+                    b.Navigation("AppointmentAttendees");
                 });
 
             modelBuilder.Entity("LXP2CYD.Authorization.Roles.Role", b =>

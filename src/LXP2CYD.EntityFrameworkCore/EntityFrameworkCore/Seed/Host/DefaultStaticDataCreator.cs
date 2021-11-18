@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LXP2CYD.LearnerModels.Schools;
+using LXP2CYD.LearnerModels.Subjects;
 using LXP2CYD.Settings.Cities;
 using LXP2CYD.Settings.Provinces;
 
@@ -16,6 +18,8 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
         public void Create()
         {
             CreateProvinces();
+            CreateSchools();
+            CreateSubjects();
         }
         public void CreateProvinces()
         {
@@ -317,7 +321,7 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
                             {
                                 Name ="Secunda"
                             },
-                           
+
                         }
                     },
                     new Province
@@ -345,7 +349,7 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
                             {
                                 Name ="Rustenburg"
                             },
-                          
+
                         }
                     },
                     new Province
@@ -389,6 +393,91 @@ namespace LXP2CYD.EntityFrameworkCore.Seed.Host
                     }
                 };
                 _context.Provinces.AddRange(provinces);
+                _context.SaveChanges();
+            }
+        }
+
+        public void CreateSchools()
+        {
+            var school = _context.Schools.FirstOrDefault();
+            if (school == null)
+            {
+                var schools = new List<School>
+                {
+                    new School
+                    {
+                        Name = "Mqikela S.S.S",
+                        AddressLine1 = "13 Durbana road, Lusikisiki, 4820",
+                    },
+                    new School
+                    {
+                        Name = "Helbrow S.S.S",
+                        AddressLine1 = "Slovo, Lusikisiki, 4820",
+                    },
+                    new School
+                    {
+                        Name = "Goso Forest",
+                        AddressLine1 = "6th Magwa road, Lusikisiki, 4820",
+                    },
+                    new School
+                    {
+                        Name = "Toli S.S.S",
+                        AddressLine1 = "163 Bambisana road, Lusikisiki, 4820",
+                    }
+                };
+                _context.Schools.AddRange(schools);
+                _context.SaveChanges();
+            }
+        }
+        public void CreateSubjects()
+        {
+            var subject = _context.Subjects.FirstOrDefault();
+            if (subject == null)
+            {
+                var subjects = new List<Subject>
+                {
+                    new Subject
+                    {
+                        Name ="Maths",
+
+                    },
+                    new Subject
+                    {
+                        Name ="Maths Literacy",
+
+                    },
+                    new Subject
+                    {
+                        Name ="Physical Sciences",
+
+                    },
+                    new Subject
+                    {
+                        Name ="Life Sciences",
+
+                    },
+                    new Subject
+                    {
+                        Name ="Geography",
+
+                    },
+                     new Subject
+                    {
+                        Name ="English",
+
+                    },
+                    new Subject
+                    {
+                        Name ="Economics",
+
+                    },
+                     new Subject
+                    {
+                        Name ="Accounting",
+
+                    }
+                };
+                _context.Subjects.AddRange(subjects);
                 _context.SaveChanges();
             }
         }

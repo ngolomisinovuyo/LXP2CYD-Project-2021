@@ -1,4 +1,5 @@
-﻿using LXP2CYD.LearnerModels.Bursaries;
+﻿using LXP2CYD.Bursaries.Dtos;
+using LXP2CYD.LearnerModels.Bursaries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace LXP2CYD.Web.Models.Bursaries
 {
     public class EditBursaryModalViewModel
     {
-        public Bursary  Bursary { get; set; }
-        public IReadOnlyList<Bursary> Bursaries { get; set; }
+        public BursaryDto  Bursary { get; set; }
+        public IReadOnlyList<BursaryDto> Bursaries { get; set; }
     }
 }

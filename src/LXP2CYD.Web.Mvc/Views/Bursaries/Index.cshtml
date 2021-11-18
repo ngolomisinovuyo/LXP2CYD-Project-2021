@@ -2,17 +2,17 @@
 @using LXP2CYD.Web.Models.Users
 @model UserListViewModel
 @{
-    ViewBag.Title = L("Users");
-    ViewBag.CurrentPageName = PageNames.Users;
+    ViewBag.Title = L("Bursaries");
+    ViewBag.CurrentPageName = PageNames.Bursaries;
 }
 @section scripts
 {
     <environment names="Development">
-        <script src="~/view-resources/Views/Users/Index.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/Bursaries/Index.js" asp-append-version="true"></script>
     </environment>
 
     <environment names="Staging,Production">
-        <script src="~/view-resources/Views/Users/Index.min.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/Bursaries/Index.min.js" asp-append-version="true"></script>
     </environment>
 }
 <section class="content-header">
@@ -51,7 +51,7 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Name</th>
+                                        <th>Title</th>
                                         <th>Comapny name</th>
                                         <th>Link</th>
                                         <th>Attachment(s)</th>

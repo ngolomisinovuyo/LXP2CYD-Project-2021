@@ -1,0 +1,159 @@
+﻿@using LXP2CYD.Web.Startup
+@using LXP2CYD.Web.Models.Programmes
+@model EditProgrammeModalViewModel
+@{
+    ViewBag.Title = L("Programmes");
+    ViewBag.CurrentPageName = PageNames.Programmes;
+}
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/view-resources/Views/Programmes/_EditModal.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    </environment>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@Model.Programme.Title Programme</h1>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card" id="ProgrammeEditModal">
+            <form name="ProgrammeEditForm" role="form" class="form-horizontal">
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" role="tab" href="#edit-programme-details">Programme Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" role="tab" href="#edit-programme-resources">Resources</a>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="Id" value="@Model.Programme.Id" />
+                    <div class="tab-content mt-2">
+                        <div role="tabpanel" class="tab-pane container active mx-0" id="edit-programme-details">
+                            <div class="row mp-0 p-0">
+                                <div class="col-md-12">
+                                    <div class="form-group required">
+                                        <label class="col-form-label">Title</label>
+                                        <div class="input-group">
+                                            <input placeholder="What's the meeting about?" value="@Model.Programme.Title" name="Title" id="Title" type='text' class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group required">
+                                                <label class="col-form-label">Start Date</label>
+                                                <div class="input-group date" id="startDatePicker">
+                                                    <input value="@Model.Programme.StartDate.ToString("dd-MM-yyyy")" name="StartDate" type='text' class="form-control" />
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <i class="bi-calendar-event"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="input-group required date" id="startTimePicker">
+                                                <input name="StartTime" value="@Model.Programme.StartDate.TimeOfDay" type='text' class="form-control" />
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <i class="bi-clock"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group required">
+                                                <label class="col-form-label">End Date</label>
+                                                <div class="input-group date" id="endDatePicker">
+                                                    <input name="EndDate" value="@Model.Programme.EndDate.ToString("dd-MM-yyyy")" type='text' class="form-control" />
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <i class="bi-calendar-event"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="input-group required date" id="endTimePicker">
+                                                <input name="EndTime" value="@Model.Programme.EndDate.TimeOfDay" type='text' class="form-control" />
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <i class="bi-clock"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <div class="col-md-12">
+                                    <div class="form-group required">
+                                        <label class="col-form-label">Description</label>
+                                        <textarea name="Description" class="form-control" placeholder="What's the programme about?">@Model.Programme.Description</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <div class="col-md-12">
+                                    <div class="form-group required pb-0">
+                                        <input type="checkbox" name="IsVirtual" value="@Model.Programme.Link == null" id="IsVirtual" checked />
+                                        &nbsp;
+                                        <label class="col-form-label" for="CreateUserIsActive">Is virtual</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="link_rapper" class="row m-0 p-0">
+                                <div class="col-md-12">
+                                    <div class="form-group required py-0 my-0">
+                                        <label class="col-form-label" class="px-1 col-form-label">Link</label>
+                                        <input type="text" id="Link" value="@Model.Programme.Link" placeholder="Write Link or paste from clipboard" class="form-control" name="Link" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: none;" id="location_wrapper" class="form-group required">
+                                <label class="px-1 col-form-label">Venue</label>
+                                <div class="col-md-12">
+                                    <input type="text" id="Venue" value="@Model.Programme.Venue" placeholder="Write full address here of the location" class="form-control" name="Venue" />
+                                </div>
+                            </div>
+                        </div>
+                         <div role="tabpanel" class="tab-pane container active" id="edit-programme-resources">
+
+                         </div>
+                    </div>
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+
+
+        </div>
+
+
+    </div>
+</section>

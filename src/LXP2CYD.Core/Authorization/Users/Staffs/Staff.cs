@@ -10,6 +10,8 @@ namespace LXP2CYD.Authorization.Users.Staffs
     {
         public int TenantId { get; set; }
         public long UserId { get; set; }
+
+       // public StaffType Type { get; set; }
         public string Duties { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }

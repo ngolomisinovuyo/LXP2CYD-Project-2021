@@ -38,13 +38,13 @@
                             <img src="~/Images/courseThumbnail.png" alt="" class="img-fluid" />
                             <div class="meta-list">
 
-                                @if (c.EventCategory == "Educational")
+                                @if (c.Category == 0)
                                 {
-                                    <a asp-controller="Admin" asp-action="Courses">@c.EventCategory</a>
+                                    <a asp-controller="Admin" asp-action="Courses">@c.Category</a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="Admin" asp-action="Courses">@c.EventCategory</a>
+                                    <a asp-controller="Admin" asp-action="Courses">@c.Category</a>
                                 }
 
                             </div>
