@@ -13,7 +13,7 @@
         <script src="~/view-resources/Views/Account/Register.min.js" asp-append-version="true"></script>
     </environment>
 }
-<h4 class="text-center">@L("Register")</h4>
+<h4 class="text-center">Register as lerner</h4>
 <form id="RegisterForm" asp-action="Register" method="post">
     @if (ViewBag.ErrorMessage != null)
     {
@@ -27,7 +27,7 @@
         <input type="text" name="Name" class="form-control" placeholder="@L("Name")" value="@Model.Name" required maxlength="@AbpUserBase.MaxNameLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-arrow-left"></span>
+                <span class="bi-arrow-left"></span>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <input type="text" name="Surname" class="form-control" placeholder="@L("Surname")" value="@Model.Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-arrow-left"></span>
+                <span class="bi-arrow-left"></span>
             </div>
         </div>
     </div>
@@ -43,7 +43,15 @@
         <input type="email" name="EmailAddress" class="form-control" placeholder="@L("EmailAddress")" value="@Model.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+                <span class="bi-envelope"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="tel" name="PhoneNumber" class="form-control" placeholder="Phone number" value="@Model.PhoneNumber" required maxlength="@AbpUserBase.MaxPhoneNumberLength">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="bi-telephone"></span>
             </div>
         </div>
     </div>
@@ -51,7 +59,7 @@
         <input type="text" name="UserName" class="form-control" placeholder="@L("UserName")" value="@Model.UserName" required maxlength="@AbpUserBase.MaxUserNameLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-user"></span>
+                <span class="bi-person"></span>
             </div>
         </div>
     </div>
@@ -59,13 +67,13 @@
         <input type="password" name="Password" class="form-control" placeholder="@L("Password")" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+                <span class="bi-lock"></span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-8">
-            <a asp-action="Login" class="btn btn-default btn-flat"><i class="fa fa-arrow-circle-left"></i> @L("Back")</a>
+            <a asp-action="Login" class="btn btn-default btn-flat"><i class="bi-arrow-left-circle"></i> @L("Back")</a>
         </div>
         <div class="col-4">
             <button type="submit" id="RegisterButton" class="btn btn-primary btn-flat float-right">@L("Register")</button>

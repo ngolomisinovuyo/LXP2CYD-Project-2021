@@ -300,10 +300,10 @@ namespace LXP2CYD.Users
             var regions = await _regionRepository.GetAllListAsync();
             return ObjectMapper.Map<IReadOnlyList<RegionDto>>(regions);
         }
-        private async Task SendConfirmation(UserConfirmAccountDto input)
+        private async Task SendEmail(UserConfirmAccountDto input)
         {
             var userId = _abpSession.UserId;
-            //var user = _userManager.FirstOrDefault(x => x.Id == userId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             //var tenant = await _tenantManager.GetByIdAsync((int)_session.TenantId);
             //send an email here
             string body = string.Empty;
@@ -333,7 +333,7 @@ namespace LXP2CYD.Users
             //}
             //else
             //{
-            //    Emailer.Send(to: input.Email, subject: "Sales Hack New Account Registration!", body: body, fromEmail: user.EmailAddress, isBodyHtml: true);
+              Emailer.Send(to: input.Email, subject: "New Center Registration!", body: body, fromEmail: input.Email, isBodyHtml: true);
             //}
 
         }

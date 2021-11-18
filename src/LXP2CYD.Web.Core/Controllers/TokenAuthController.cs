@@ -142,6 +142,7 @@ namespace LXP2CYD.Controllers
                 externalUser.Name,
                 externalUser.Surname,
                 externalUser.EmailAddress,
+                externalUser.PhoneNumber,
                 externalUser.EmailAddress,
                 Authorization.Users.User.CreateRandomPassword(),
                 true

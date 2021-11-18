@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
@@ -10,6 +11,7 @@ using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
 using Abp.MultiTenancy;
+using Abp.Net.Mail;
 using Abp.Runtime.Security;
 using LXP2CYD.Authorization;
 using LXP2CYD.Authorization.Roles;
@@ -19,6 +21,7 @@ using LXP2CYD.MultiTenancy.Dto;
 using LXP2CYD.Settings.Regions;
 using LXP2CYD.Settings.Regions.Dto;
 using LXP2CYD.Users.Dto;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +36,7 @@ namespace LXP2CYD.MultiTenancy
         private readonly RoleManager _roleManager;
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IRepository<Region, int> _regionRepository;
+        private readonly IWebHostEnvironment _environment;
 
         public TenantAppService(
             IRepository<Tenant, int> repository,
@@ -41,7 +45,8 @@ namespace LXP2CYD.MultiTenancy
             UserManager userManager,
             RoleManager roleManager,
             IRepository<Region, int> regionRepository,
-            IAbpZeroDbMigrator abpZeroDbMigrator)
+            IAbpZeroDbMigrator abpZeroDbMigrator,
+            IWebHostEnvironment environment)
             : base(repository)
         {
             _tenantManager = tenantManager;
@@ -50,6 +55,7 @@ namespace LXP2CYD.MultiTenancy
             _roleManager = roleManager;
             _regionRepository = regionRepository;
             _abpZeroDbMigrator = abpZeroDbMigrator;
+            _environment = environment;
         }
 
         public override async Task<TenantDto> CreateAsync(CreateTenantDto input)
@@ -115,6 +121,16 @@ namespace LXP2CYD.MultiTenancy
                         // Assign admin user to role!
                         CheckErrors(await _userManager.AddToRoleAsync(adminUser, role.Name));
                         await CurrentUnitOfWork.SaveChangesAsync();
+                        // Send Email
+                        UserConfirmAccountDto userConfirmAccountDto = new UserConfirmAccountDto
+                        {
+                            Name = adminUser.FullName,
+                            UserName = adminUser.UserName,
+                            Password = "123qwe",
+                            Email = adminUser.EmailAddress,
+                            ToUserId = adminUser.Id
+                        };
+                        await SendEmail(userConfirmAccountDto, tenant.Name);
                     }
                     else
                     {
@@ -132,6 +148,7 @@ namespace LXP2CYD.MultiTenancy
 
 
             }
+            
 
             return MapToEntityDto(tenant);
         }
@@ -201,6 +218,35 @@ namespace LXP2CYD.MultiTenancy
         {
             var regions = await _regionRepository.GetAllListAsync();
             return ObjectMapper.Map<IReadOnlyList<RegionDto>>(regions);
+        }
+        private async Task SendEmail(UserConfirmAccountDto input, string centerName = null)
+        {
+            var userId = AbpSession.UserId;
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            //send an email here
+            string body = string.Empty;
+
+            //using streamreader for reading my html template   
+
+            var path = Path.Combine(_environment.WebRootPath, "Templates/Email/center-registration-success.html");
+
+            using (StreamReader reader = new StreamReader(path))
+            {
+                body = reader.ReadToEnd();
+            }
+            string resetPasswordlink = $"{input.BaseUrl}/account/reset-password?code=" + input.Code + "&id=" + input.ToUserId;
+            //string fromName = user.Name;
+            string link = $"{input.BaseUrl}/account/tenant";
+            body = body.Replace("#Name", input.Name);
+            body = body.Replace("#Link", link);
+            body = body.Replace("#ResetPasswordLink", resetPasswordlink);
+            body = body.Replace("#CenterName", centerName);
+            //body = body.Replace("#DomainName", tenant.TenancyName);
+            body = body.Replace("#UserName", input.UserName);
+            body = body.Replace("#Password", input.Password);
+            Emailer.Send(to: input.Email, subject: "New Center Registration!", body: body, isBodyHtml: true);
+           
+
         }
 
     }

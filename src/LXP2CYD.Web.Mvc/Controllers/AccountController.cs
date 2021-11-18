@@ -30,6 +30,8 @@ using LXP2CYD.MultiTenancy;
 using LXP2CYD.Sessions;
 using LXP2CYD.Web.Models.Account;
 using LXP2CYD.Web.Views.Shared.Components.TenantChange;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LXP2CYD.Web.Controllers
 {
@@ -46,6 +48,7 @@ namespace LXP2CYD.Web.Controllers
         private readonly ISessionAppService _sessionAppService;
         private readonly ITenantCache _tenantCache;
         private readonly INotificationPublisher _notificationPublisher;
+        private readonly IWebHostEnvironment _environment;
 
         public AccountController(
             UserManager userManager,
@@ -58,7 +61,8 @@ namespace LXP2CYD.Web.Controllers
             UserRegistrationManager userRegistrationManager,
             ISessionAppService sessionAppService,
             ITenantCache tenantCache,
-            INotificationPublisher notificationPublisher)
+            IWebHostEnvironment environment,
+        INotificationPublisher notificationPublisher)
         {
             _userManager = userManager;
             _multiTenancyConfig = multiTenancyConfig;
@@ -71,6 +75,7 @@ namespace LXP2CYD.Web.Controllers
             _sessionAppService = sessionAppService;
             _tenantCache = tenantCache;
             _notificationPublisher = notificationPublisher;
+            _environment = environment;
         }
 
         #region Login / Logout
@@ -184,6 +189,7 @@ namespace LXP2CYD.Web.Controllers
                     model.Name,
                     model.Surname,
                     model.EmailAddress,
+                    model.PhoneNumber,
                     model.UserName,
                     model.Password,
                     true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
@@ -191,7 +197,9 @@ namespace LXP2CYD.Web.Controllers
 
                 // Getting tenant-specific settings
                 var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
-
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var link = "https://localhost:5000/Account/ConfirmAccountcode=" + code + "&id=" + user.Id;
+                await SendEmail(link, user.FullName, user.EmailAddress);
                 if (model.IsExternalLogin)
                 {
                     Debug.Assert(externalLoginInfo != null);
@@ -456,7 +464,29 @@ namespace LXP2CYD.Web.Controllers
 
             return Content("Sent notification: " + message);
         }
+        private async Task SendEmail(string link, string name, string email)
+        {
+            var userId = AbpSession.UserId;
 
+            //send an email here
+            string body = string.Empty;
+
+            //using streamreader for reading my html template   
+
+            var path = Path.Combine(_environment.WebRootPath, "Templates/Email/confirm-account.html");
+
+            using (StreamReader reader = new StreamReader(path))
+            {
+                body = reader.ReadToEnd();
+            }
+            //string fromName = user.Name;
+            body = body.Replace("#Name", name);
+            body = body.Replace("#Link", link);
+
+            Emailer.Send(to: email, subject: "New Center Registration!", body: body, isBodyHtml: true);
+
+
+        }
         #endregion
     }
 }

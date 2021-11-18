@@ -80,7 +80,8 @@ namespace LXP2CYD.Web.Startup
                     new MenuItemDefinition(
                         "Settings",
                         L("Settings"),
-                        icon: "bi-gear"
+                        icon: "bi-gear",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Settings)
                     ).AddItem(
                             new MenuItemDefinition(
                                 "Provinces",

@@ -3,14 +3,21 @@
         l = abp.localization.getSource('LXP2CYD'),
         _$modal = $('#AppointmentEditModal'),
         _$form = _$modal.find('form');
-
+    //_$form.find('.selectpicker').selectpicker();
     function save() {
         if (!_$form.valid()) {
             return;
         }
 
         var appointmemt = _$form.serializeFormToObject();
-        
+        appointment.StartTime = new Date(appointment.StartDate.split('-')
+            .reverse().join().replace(/,/g, '-') + ' ' + appointment.StartTime);
+        appointment.EndTime = new Date(appointment.EndDate.split('-')
+            .reverse().join().replace(/,/g, '-') + ' ' + appointment.EndTime)
+
+        delete appointment.EndDate;
+        delete appointment.StartDate;
+        appointment.CreateAppointmentAttendeeDtos = _$form.find('#select-attendees').val().map(x => JSON.parse(x));
         abp.ui.setBusy(_$form);
         _appointmentService.update(appointment).done(function () {
             _$modal.modal('hide');

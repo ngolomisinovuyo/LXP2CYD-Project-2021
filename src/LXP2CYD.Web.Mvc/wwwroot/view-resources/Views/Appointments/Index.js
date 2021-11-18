@@ -111,7 +111,7 @@
         "showTodayButton": true,
         "format": "HH:mm:ss",
     });
-   _$form.find('.selectpicker').selectpicker();
+    _$form.find('#select-attendees').selectpicker();
 
     _$form.find('#IsVirtual').change(function () {
         if (this.checked) {
@@ -138,6 +138,7 @@
         delete appointment.EndDate;
         delete appointment.StartDate;
         //console.log(_$form.find('#select-attendees').val());
+
         appointment.CreateAppointmentAttendeeDtos = _$form.find('#select-attendees').val().map(x => JSON.parse(x));
         abp.ui.setBusy(_$modal);
         _appointmentService.create(appointment).done(function () {
@@ -181,7 +182,7 @@
 
         e.preventDefault();
         abp.ajax({
-            url: abp.appPath + 'Appointment/EditModal?appointmentId=' + appointmentId,
+            url: abp.appPath + 'Appointments/EditModal?appointmentId=' + appointmentId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {
@@ -191,6 +192,23 @@
             }
         });
     });
+    function editAppointment(id, e) {
+        var appointmentId = id;
+
+        e.preventDefault();
+        abp.ajax({
+            url: abp.appPath + 'Appointments/EditModal?appointmentId=' + appointmentId,
+            type: 'POST',
+            dataType: 'html',
+            success: function (content) {
+                $('#AppointmemtEditModal div.modal-content').html(content);
+                $('#AppointmemtEditModal').modal('show');
+                $('.selectpicker').selectpicker();
+            },
+            error: function (e) {
+            }
+        });
+    }
 
     abp.event.on('appointment.edited', (data) => {
         _$usersTable.ajax.reload();
@@ -234,10 +252,10 @@
                                 allDay: v.IsFullDay
                             });
                         }
-                       
+
                     })
                 }
-               
+
                 GenerateCalender(events);
             },
             error: function (error) {
@@ -245,7 +263,7 @@
             }
         })
     }
-    
+
     function GenerateCalender(events) {
         $('#calender').fullCalendar('destroy');
         $('#calender').fullCalendar({
@@ -261,15 +279,16 @@
             eventColor: '#378006',
             events: events,
             eventClick: function (calEvent, jsEvent, view) {
-               // $('#AppointmemtEditModal #eventTitle').value(calEvent.title);
-               // var $description = $('<div/>');
-               // $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-               // if (calEvent.end != null) {
-               //     $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
-               // }
-               // $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-               //// $('#myModal #pDetails').empty().html($description);
-                $('#AppointmemtEditModal').modal();
+                // $('#AppointmemtEditModal #eventTitle').value(calEvent.title);
+                // var $description = $('<div/>');
+                // $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                // if (calEvent.end != null) {
+                //     $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                // }
+                // $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                //// $('#myModal #pDetails').empty().html($description);
+                editAppointment(calEvent.id, jsEvent);
+
             }
         })
     }

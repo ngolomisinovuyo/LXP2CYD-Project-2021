@@ -11,6 +11,8 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using LXP2CYD.Authorization.Roles;
 using LXP2CYD.MultiTenancy;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace LXP2CYD.Authorization.Users
 {
@@ -33,11 +35,10 @@ namespace LXP2CYD.Authorization.Users
             _userManager = userManager;
             _roleManager = roleManager;
             _passwordHasher = passwordHasher;
-
             AbpSession = NullAbpSession.Instance;
         }
 
-        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
+        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string phoneNumber, string userName, string plainPassword, bool isEmailConfirmed)
         {
             CheckForTenant();
 
@@ -49,6 +50,7 @@ namespace LXP2CYD.Authorization.Users
                 Name = name,
                 Surname = surname,
                 EmailAddress = emailAddress,
+                PhoneNumber = phoneNumber,
                 IsActive = true,
                 UserName = userName,
                 IsEmailConfirmed = isEmailConfirmed,
@@ -56,8 +58,9 @@ namespace LXP2CYD.Authorization.Users
             };
 
             user.SetNormalizedNames();
-           
-            foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
+
+            var defaultRole = await _roleManager.Roles.FirstOrDefaultAsync(r => r.Name == StaticRoleNames.Tenants.Learner);
+            if(defaultRole != null)
             {
                 user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
             }
@@ -108,5 +111,6 @@ namespace LXP2CYD.Authorization.Users
         {
             identityResult.CheckErrors(LocalizationManager);
         }
+        
     }
 }

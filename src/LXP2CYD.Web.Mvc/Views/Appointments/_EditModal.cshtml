@@ -6,155 +6,152 @@
     Layout = null;
 }
 
-<div class="modal fade" id="AppointmentEditModal" tabindex="-1" role="dialog" aria-labelledby="AppointmentEditModalLabel" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Edit appointment"))
-            <form name="AppointmentEditForm" role="form" class="form-horizontal">
 
-                <div class="modal-body">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" role="tab" href="#edit-appointment-details">Appontment details</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" role="tab" href="#edit-appointment-attendees">Send invites</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content mt-4">
-                        <div role="tabpanel" class="tab-pane container active" id="create-appointment-details">
-                            <div class="row mp-0 p-0">
-                                <div class="col-md-12">
-                                    <div class="form-group required">
-                                        <label class="col-form-label">Title</label>
-                                        <div class="input-group">
-                                            <input placeholder="What's the meeting about?" value="@Model.Appointment.Title" name="Title" id="Title" type='text' class="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group required">
-                                                <label class="col-form-label">Start Date</label>
-                                                <div class="input-group date" id="startDatePicker">
-                                                    <input value="@Model.Appointment.StartTime.ToString("dd-MM-yyyy")" name="StartDate" type='text' class="form-control" />
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            <i class="bi-calendar-event"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="input-group required date" id="startTimePicker">
-                                                <input name="StartTime" value="@Model.Appointment.StartTime.TimeOfDay" type='text' class="form-control" />
-                                                <div class="input-group-append">
-                                                    <div class="input-group-text">
-                                                        <i class="bi-clock"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Edit appointment"))
+<form name="AppointmentEditForm" role="form" class="form-horizontal">
 
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group required">
-                                                <label class="col-form-label">End Date</label>
-                                                <div class="input-group date" id="endDatePicker">
-                                                    <input name="EndDate" value="@Model.Appointment.EndTime.ToString("dd-MM-yyyy")" type='text' class="form-control" />
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            <i class="bi-calendar-event"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="input-group required date" id="endTimePicker">
-                                                <input name="EndTime" value="@Model.Appointment.EndTime.TimeOfDay" type='text' class="form-control" />
-                                                <div class="input-group-append">
-                                                    <div class="input-group-text">
-                                                        <i class="bi-clock"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-md-12">
-                                    <div class="form-group required pb-0">
-                                        <input type="checkbox" name="IsVirtual" value="@Model.Appointment.IsVirtual" id="IsVirtual" checked />
-                                        &nbsp;
-                                        <label class="col-form-label" for="CreateUserIsActive">Is virtual</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div id="link_rapper" class="row m-0 p-0">
-                                <div class="col-md-12">
-                                    <div class="form-group required py-0 my-0">
-                                        <label class="col-form-label" class="px-1 col-form-label">Link</label>
-                                        <input type="text" id="Link" value="@Model.Appointment.MeetingLink"  placeholder="Write Link or paste from clipboard" class="form-control" name="Link" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display: none;" id="location_wrapper" class="form-group required">
-                                <label class="px-1 col-form-label">Location</label>
-                                <div class="col-md-12">
-                                    <input type="text" id="Location" value="@Model.Appointment.Location" placeholder="Write full address here of the location" class="form-control" name="Location" />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div role="tabpanel" class="tab-pane container" id="edit-appointment-attendees">
-                            <div class="row d-flex align-items-center m-0 p-0 w-100">
-                                <div class="col">
-                                    <div class="form-group required">
-                                        <label class="px-1 col-form-label">Attendee</label>
-                                        <select multiple data-live-search="true" id="select-attendees" class="form-control selectpicker">
-                                            @foreach (var user in Model.Users)
-                                            {
-                                                if (Model.Appointment.AppointmentAttendees.Any(x => x.AttendeeId == user.Id))
-                                                {
-                                                    <option selected value='{"AttendeeId":@user.Id, "EmailAddress": "@user.EmailAddress"}'>@user.FullName</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value='{"AttendeeId":@user.Id, "EmailAddress": "@user.EmailAddress"}'>@user.FullName</option>
-                                                }
-
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 px-0 mx-0 text-right pt-4">
-                                    <button class="btn btn-default text-danger">
-                                        <i class="bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button class="btn btn-default text-primary"><i class="bi-plus"></i></button>
-                                </div>
+    <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" role="tab" href="#edit-appointment-details">Appontment details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" role="tab" href="#edit-appointment-attendees">Send invites</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-4">
+            <div role="tabpanel" class="tab-pane container active" id="edit-appointment-details">
+                <div class="row mp-0 p-0">
+                    <div class="col-md-12">
+                        <div class="form-group required">
+                            <label class="col-form-label">Title</label>
+                            <div class="input-group">
+                                <input placeholder="What's the meeting about?" value="@Model.Appointment.Title" name="Title" id="Title" type='text' class="form-control" />
                             </div>
                         </div>
                     </div>
                 </div>
-                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
-            </form>
+                <div class="row m-0 p-0">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group required">
+                                    <label class="col-form-label">Start Date</label>
+                                    <div class="input-group date" id="startDatePicker">
+                                        <input value="@Model.Appointment.StartTime.ToString("dd-MM-yyyy")" name="StartDate" type='text' class="form-control" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="bi-calendar-event"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group required date" id="startTimePicker">
+                                    <input name="StartTime" value="@Model.Appointment.StartTime.TimeOfDay" type='text' class="form-control" />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <i class="bi-clock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group required">
+                                    <label class="col-form-label">End Date</label>
+                                    <div class="input-group date" id="endDatePicker">
+                                        <input name="EndDate" value="@Model.Appointment.EndTime.ToString("dd-MM-yyyy")" type='text' class="form-control" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="bi-calendar-event"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group required date" id="endTimePicker">
+                                    <input name="EndTime" value="@Model.Appointment.EndTime.TimeOfDay" type='text' class="form-control" />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <i class="bi-clock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row m-0 p-0">
+                    <div class="col-md-12">
+                        <div class="form-group required pb-0">
+                            <input type="checkbox" name="IsVirtual" value="@Model.Appointment.IsVirtual" id="IsVirtual" checked />
+                            &nbsp;
+                            <label class="col-form-label" for="CreateUserIsActive">Is virtual</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="link_rapper" class="row m-0 p-0">
+                    <div class="col-md-12">
+                        <div class="form-group required py-0 my-0">
+                            <label class="col-form-label" class="px-1 col-form-label">Link</label>
+                            <input type="text" id="Link" value="@Model.Appointment.MeetingLink" placeholder="Write Link or paste from clipboard" class="form-control" name="Link" />
+                        </div>
+                    </div>
+                </div>
+                <div style="display: none;" id="location_wrapper" class="form-group required">
+                    <label class="px-1 col-form-label">Location</label>
+                    <div class="col-md-12">
+                        <input type="text" id="Location" value="@Model.Appointment.Location" placeholder="Write full address here of the location" class="form-control" name="Location" />
+                    </div>
+                </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane container" id="edit-appointment-attendees">
+                <div class="row d-flex align-items-center m-0 p-0 w-100">
+
+                    <div class="col">
+                        <div class="form-group required">
+                            <label class="px-1 col-form-label">Attendee</label>
+                            <select multiple data-live-search="true" id="select-attendees" class="form-control selectpicker">
+                                @foreach (var user in Model.Users)
+                                {
+                                    if (Model.Appointment.AppointmentAttendees.Any(x => x.AttendeeId == user.Id))
+                                    {
+                                        <option selcted value='{"AttendeeId":@user.Id, "EmailAddress": "@user.EmailAddress"}'>@user.FullName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value='{"AttendeeId":@user.Id, "EmailAddress": "@user.EmailAddress"}'>@user.FullName</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1 px-0 mx-0 text-right pt-4">
+                        <button class="btn btn-default text-danger">
+                            <i class="bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-default text-primary"><i class="bi-plus"></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>
+<script src="~/view-resources/Views/Appointments/_EditModal.js" asp-append-version="true"></script>

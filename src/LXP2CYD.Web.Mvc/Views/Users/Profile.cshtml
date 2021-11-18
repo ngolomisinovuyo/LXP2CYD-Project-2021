@@ -1,0 +1,92 @@
+﻿@using LXP2CYD.Web.Startup
+@using Abp.Authorization.Users
+@using LXP2CYD.Web.Models.Users
+@model EditUserModalViewModel
+@{
+    ViewBag.Title = L("Users");
+    ViewBag.CurrentPageName = PageNames.Users;
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>User Profile</h1>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row display-flex ml-1 mb-4" style="min-height: 60vh;">
+            <div class="col-xl-3 col-lg-4 col-md-4 px-0">
+                <div class="card py-0 card-body h-100 px-0 pt-3">
+
+                    <div class="text-center font-size-24 p-1">@Model.User.FullName</div>
+                    <div class="text-center font-size-15">@Model.User.EmailAddress</div>
+                    <div class="text-center font-size-15">@Model.User.PhoneNumber</div>
+
+                    <div class="mx-2 mb-2 d-flex align-items-center justify-content-center">
+                        @foreach (var roleName in Model.User.RoleNames)
+                        {
+                            <a href="javascript: void(0);"
+                               class="badge badge-primary">@roleName.ToLower()</a>
+                        }
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-8" style="flex-grow: 1;">
+                <div class="card h-100">
+
+                    <div class="card-body" [ngClass]="{'bg-gray': activeMenuItem?.label === 'Statements'}">
+                        <div class="card-header mb-2" *ngIf="activeMenuItem?.label !== 'Statements'">
+                            <h6>Other Information</h6>
+                        </div>
+                        <form name="profileForm" role="form" class="form-horizontal">
+                            <div class="row m-0 p-0">
+                                <div class="col-md-6">
+                                    <div class="form-group required">
+                                        <label class="col-form-label">Address line 1</label>
+                                        <input placeholder="street ot house no." type="text" value="@Model.User.AddressLine1" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group required">
+                                        <label class="col-form-label">Address line 2</label>
+                                        <input placeholder="unit no." type="text" value="@Model.User.AddressLine2" class="form-control" name="Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <div class="col-md-6">
+                                    <div class="form-group required">
+                                        <label class="col-form-label">City</label>
+                                        <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.City" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group required">
+                                        <label class="px-1 col-form-label">Province</label>
+                                        <select name="ProvinceId" class="form-control">
+                                            <option value="">Select Province</option>
+                                            @foreach (var province in Model.Provinces)
+                                            {
+                                                <option value="@province.Id">@province.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

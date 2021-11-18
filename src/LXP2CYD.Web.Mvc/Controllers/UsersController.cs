@@ -48,7 +48,17 @@ namespace LXP2CYD.Web.Controllers
             };
             return PartialView("_EditModal", model);
         }
-
+        public async Task<ActionResult> Profile(long id)
+        {
+            var user = await _userAppService.GetAsync(new EntityDto<long>(id));
+            var provinces = await _userAppService.GetProvinces();
+            var model = new EditUserModalViewModel
+            {
+                User = user,
+                Provinces = provinces
+            };
+            return View(model);
+        }
         public ActionResult ChangePassword()
         {
             return View();

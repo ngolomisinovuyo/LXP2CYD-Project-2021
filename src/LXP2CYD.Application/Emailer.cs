@@ -18,11 +18,23 @@ namespace LXP2CYD
             mail.Subject = subject;
             mail.Body = body;
             mail.IsBodyHtml = isBodyHtml;
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.mailtrap.io";
-            smtp.Port = 587;
-            smtp.Credentials = new NetworkCredential("f4e7b6f9b00c43", "5930de6e7bd705");
+            SmtpClient smtp = new SmtpClient
+            {
+                EnableSsl = false,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential("e5b937e22ce6f4454fc21c9b8c6e2972", "226b2b54b896ded14473e112de3b28c1"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Port = 587,
+                Host = "in-v3.mailjet.com"
+            };
+            //SmtpClient smtp = new SmtpClient();
+            //smtp.Host = "smtp.sendgrid.net";
+            //smtp.Port = 587;
+            //smtp.Credentials = new NetworkCredential("apikey", "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");
+            //smtp.Host = "smtp.mailtrap.io";
+            //smtp.Port = 587;
+            //smtp.Credentials = new NetworkCredential("f4e7b6f9b00c43", "5930de6e7bd705");
+            //smtp.Credentials = new NetworkCredential("apikey", "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");
             try
             {
                 smtp.Send(mail);
@@ -45,9 +57,14 @@ namespace LXP2CYD
             mail.Body = body;
             mail.IsBodyHtml = isBodyHtml;
             SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.mailtrap.io";
+            smtp.Host = "smtp.sendgrid.net";
             smtp.Port = 587;
-            smtp.Credentials = new NetworkCredential("5930de6e7bd705", "5930de6e7bd705");
+            smtp.Credentials = new NetworkCredential("apikey", "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");
+
+            //smtp.Host = "smtp.mailtrap.io";
+            //smtp.Port = 587;
+            //smtp.Credentials = new NetworkCredential("5930de6e7bd705", "5930de6e7bd705");
+            //smtp.Credentials = new NetworkCredential("apikey", "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");
 
             try
             {
