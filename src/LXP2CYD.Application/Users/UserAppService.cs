@@ -21,6 +21,7 @@ using LXP2CYD.Authorization;
 using LXP2CYD.Authorization.Accounts;
 using LXP2CYD.Authorization.Roles;
 using LXP2CYD.Authorization.Users;
+using LXP2CYD.Authorization.Users.Staffs;
 using LXP2CYD.Roles.Dto;
 using LXP2CYD.Settings.Provinces;
 using LXP2CYD.Settings.Provinces.Dto;
@@ -39,6 +40,7 @@ namespace LXP2CYD.Users
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Staff, long> _staffRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
@@ -51,6 +53,7 @@ namespace LXP2CYD.Users
             UserManager userManager,
             RoleManager roleManager,
             IRepository<Role> roleRepository,
+            IRepository<Staff, long> staffRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
             IWebHostEnvironment environment,
@@ -68,6 +71,7 @@ namespace LXP2CYD.Users
             _environment = environment;
             _regionRepository = regionRepository;
             _provinceRepository = provinceRepository;
+            _staffRepository = staffRepository;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -93,22 +97,29 @@ namespace LXP2CYD.Users
                     {
                         List<Permission> grantedPermissions = new List<Permission>();
                         List<string> permissionsToGrant = new List<string>();
-                        using (CurrentUnitOfWork.DisableFilter(AbpDataFilters.MayHaveTenant, AbpDataFilters.MustHaveTenant))
+
+                        var roleFound = _roleManager.Roles.Include(x => x.Permissions).Single(r => r.Name == role);
+
+                        if (roleFound != null)
                         {
-                            var centerManagerRole = _roleManager.Roles.Include(x => x.Permissions).Single(r => r.Name == role);
-
-                            if (centerManagerRole != null)
-                            {
-                                permissionsToGrant = centerManagerRole.Permissions.Select(x => x.Name).ToList();
-                            }
-
+                            permissionsToGrant = roleFound.Permissions.Select(x => x.Name).ToList();
                         }
-                        
+
                         grantedPermissions = PermissionManager
                         .GetAllPermissions()
                         .Where(p => permissionsToGrant.Contains(p.Name))
                         .ToList();
                         await _roleManager.SetGrantedPermissionsAsync(userRole, grantedPermissions);
+                        if (role == StaticRoleNames.Tenants.Employee || role == StaticRoleNames.Host.Volunteer)
+                        {
+                            var staff = new Staff()
+                            {
+                                UserId = user.Id,
+                                TenantId = user.TenantId.Value,
+                                Duties = "Mentoring, Uploading Learning Marerial, View Student Reports"
+                            };
+                            await _staffRepository.InsertAsync(staff);
+                        }
                     }
                 }
 
