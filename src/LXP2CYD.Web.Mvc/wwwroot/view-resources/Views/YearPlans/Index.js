@@ -103,11 +103,11 @@
         deleteYearPlan(yearPlanrId, yearPlanName);
     });
 
-    function deleteUser(yearPlanrId, yearPlanName) {
+    function deleteYearPlan(yearPlanrId, yearPlanName) {
         abp.message.confirm(
             abp.utils.formatString(
                 l('AreYouSureWantToDelete'),
-                userName),
+                yearPlanName),
             null,
             (isConfirmed) => {
                 if (isConfirmed) {
