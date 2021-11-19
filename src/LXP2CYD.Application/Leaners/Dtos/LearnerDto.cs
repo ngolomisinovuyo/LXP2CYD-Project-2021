@@ -2,6 +2,7 @@
 using Abp.AutoMapper;
 using LXP2CYD.Leaners.Dtos.LearnerSubjects;
 using LXP2CYD.LearnerModels.Learners;
+using LXP2CYD.Users.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace LXP2CYD.Leaners.Dtos
         public int? SchoolId { get; set; }
         public Grade? Grade { get; set; }
 
+        public UserDto User { get; set; }
         public IReadOnlyList<LearnerSubjectDto> LearnerSubjects { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace LXP2CYD
         {
 
             MailAddress toEmail = new MailAddress(to);
-            MailAddress from = new MailAddress("no-reply@LPX2.com");
+            MailAddress from = new MailAddress("ngolomisinovuyo@gmail.com");
             MailMessage mail = new MailMessage(from, toEmail);
 
             mail.Subject = subject;
@@ -22,7 +22,7 @@ namespace LXP2CYD
             {
                 EnableSsl = false,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("e5b937e22ce6f4454fc21c9b8c6e2972", "226b2b54b896ded14473e112de3b28c1"),
+                Credentials = new NetworkCredential("34c681938aa8fccfce1dc6e480ec4c56", "e0e5b264b502c13509a203dfa3816085"),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Port = 587,
                 Host = "in-v3.mailjet.com"

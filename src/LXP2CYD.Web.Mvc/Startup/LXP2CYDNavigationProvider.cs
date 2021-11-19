@@ -39,24 +39,24 @@ namespace LXP2CYD.Web.Startup
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Users)
                     )
                 )
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Students,
-                        L("Students"),
-                        url: "Students",
-                        icon: "bi-people",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Learners)
-                    )
-                )
-                .AddItem(
-                    new MenuItemDefinition(
-                        PageNames.Mentors,
-                        L("Mentors"),
-                        url: "Mentors",
-                        icon: "bi-people",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff)
-                    )
-                )
+                //.AddItem(
+                //    new MenuItemDefinition(
+                //        PageNames.Students,
+                //        L("Students"),
+                //        url: "Students",
+                //        icon: "bi-people",
+                //        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Learners)
+                //    )
+                //)
+                //.AddItem(
+                //    new MenuItemDefinition(
+                //        PageNames.Mentors,
+                //        L("Mentors"),
+                //        url: "Mentors",
+                //        icon: "bi-people",
+                //        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff)
+                //    )
+                //)
                 .AddItem(
                     new MenuItemDefinition(
                         PageNames.Appointments,
