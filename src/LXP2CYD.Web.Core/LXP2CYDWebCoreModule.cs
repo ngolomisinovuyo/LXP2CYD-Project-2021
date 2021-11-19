@@ -35,6 +35,7 @@ namespace LXP2CYD
 
         public override void PreInitialize()
         {
+            
             Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(
                 LXP2CYDConsts.ConnectionStringName
             );
@@ -46,7 +47,7 @@ namespace LXP2CYD
                  .CreateControllersForAppServices(
                      typeof(LXP2CYDApplicationModule).GetAssembly()
                  );
-
+           // Configuration.Modules.AbpAspNetCore().IsValidationEnabledForControllers = false;
             ConfigureTokenAuth();
         }
 

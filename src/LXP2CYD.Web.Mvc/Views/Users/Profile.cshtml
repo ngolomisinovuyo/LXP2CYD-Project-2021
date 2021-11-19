@@ -6,11 +6,25 @@
     ViewBag.Title = L("Users");
     ViewBag.CurrentPageName = PageNames.Users;
 }
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/view-resources/Views/Users/Index.js" asp-append-version="true"></script>
+
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/view-resources/Views/Users/Index.min.js" asp-append-version="true"></script>
+
+    </environment>
+}
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h1>User Profile</h1>
+                <h1><strong>@Model.User.FullName</strong>'s profile</h1>
             </div>
 
         </div>
@@ -35,35 +49,44 @@
 
                     </div>
 
-                    <div class="nav flex-column nav-pills mt-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="v-pills-personal-tab" data-toggle="pill" href="#v-pills-personal" role="tab" aria-controls="v-pills-personal" aria-selected="true">Personal Information</a>
+                    <div class="nav flex-column nav-pills mt-5 px-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link border-b border-1 active" id="v-pills-personal-tab" data-toggle="pill" href="#v-pills-personal" role="tab" aria-controls="v-pills-personal" aria-selected="true">Personal Information</a>
                         <a class="nav-link" id="v-pills-address-tab" data-toggle="pill" href="#v-pills-address" role="tab" aria-controls="v-pills-address" aria-selected="true">Address Information</a>
-                        <a class="nav-link" id="v-pills-school-tab" data-toggle="pill" href="#v-pills-school" role="tab" aria-controls="v-pills-school" aria-selected="false">School Information</a>
+                        @if (Model.User.RoleNames.Any(x => x.ToLower() == "learner"))
+                        {
+                            <a class="nav-link" id="v-pills-school-tab" data-toggle="pill" href="#v-pills-school" role="tab" aria-controls="v-pills-school" aria-selected="false">Education Information</a>
+                        }
+
                         <a class="nav-link" id="v-pills-duties-tab" data-toggle="pill" href="#v-pills-duties" role="tab" aria-controls="v-pills-duties" aria-selected="false">Duties</a>
-                        <a class="nav-link" id="v-pills-subjects-tab" data-toggle="pill" href="#v-pills-subjects" role="tab" aria-controls="v-pills-subjects" aria-selected="false">Progress Reports</a>
-                        <a class="nav-link" id="v-pills-reports-tab" data-toggle="pill" href="#v-pills-reports" role="tab" aria-controls="v-pills-reports" aria-selected="false">Progress Reports</a>
+                        <a class="nav-link" id="v-pills-subjects-tab" data-toggle="pill" href="#v-pills-subjects" role="tab" aria-controls="v-pills-subjects" aria-selected="false">My Subjects</a>
+                        @if (Model.User.RoleNames.Any(x => x.ToLower() == "learner"))
+                        {
+                            <a class="nav-link" id="v-pills-reports-tab" data-toggle="pill" href="#v-pills-reports" role="tab" aria-controls="v-pills-reports" aria-selected="false">Progress Reports</a>
+                        }
+
                     </div>
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-8" style="flex-grow: 1;">
                 <div class="card h-100">
 
-                    <div class="card-body" [ngClass]="{'bg-gray': activeMenuItem?.label === 'Statements'}">
-                        <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel" aria-labelledby="v-pills-personal-tab">
-                                <form name="profileForm" role="form" class="form-horizontal">
+                    <div class="card-body" id="ProfileContent" [ngClass]="{'bg-gray': activeMenuItem?.label === 'Statements'}">
+                        <div class="tab-content h-100" id="v-pills-tabContent h-100 border border-1">
+                            <div class="tab-pane fade show active h-100" id="v-pills-personal" role="tabpanel" aria-labelledby="v-pills-personal-tab">
+                                <form name="personalInfoForm" asp-controller="Users" asp-action="Edit" method="post" role="form" class="form-horizontal pb-4 h-100">
+                                    <input type="hidden" value="@Model.User.Id" name="Id" />
                                     <div class="row m-0 p-0">
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">First name</label>
-                                                <input placeholder="e.g " type="text" value="@Model.User.Name" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <input placeholder="e.g " type="text" asp-for="@Model.User.Name" name="Name" class="form-control" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">Last name</label>
-                                                <input placeholder="unit no." type="text" value="@Model.User.Surname" class="form-control" name="Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+                                                <input placeholder="unit no." type="text" asp-for="@Model.User.Surname" class="form-control" name="Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
                                             </div>
                                         </div>
                                     </div>
@@ -71,34 +94,42 @@
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">Email address</label>
-                                                <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.EmailAddress" class="form-control" name="EmailAddress" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <input type="text" placeholder="e.g Port Elizabeth" asp-for="@Model.User.EmailAddress" class="form-control" name="EmailAddress" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">Phone number</label>
-                                                <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.PhoneNumber" class="form-control" name="PhoneNumber" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <input type="text" placeholder="e.g Port Elizabeth" asp-for="@Model.User.PhoneNumber" class="form-control" name="PhoneNumber" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="v-pills-address" role="tabpanel" aria-labelledby="v-pills-address-tab">
-                                <form name="profileForm" role="form" class="form-horizontal">
+                                <form name="profileForm" asp-controller="Users" asp-action="Edit" method="post" role="form" class="form-horizontal">
+                                    <input type="hidden" value="@Model.User.Id" name="Id" />
+                                    <input type="hidden" value="@Model.User.Name" name="Name" />
+                                    <input type="hidden" value="@Model.User.Surname" name="Surname" />
+                                    <input type="hidden" value="@Model.User.EmailAddress" name="EmailAddress" />
+                                    <input type="hidden" value="@Model.User.PhoneNumber" name="PhoneNumber" />
                                     <div class="row m-0 p-0">
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">Address line 1</label>
-                                                <input placeholder="street ot house no." type="text" value="@Model.User.AddressLine1" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <input placeholder="street ot house no." type="text" asp-for="@Model.User.AddressLine1" class="form-control" name="AddressLine1" required>
 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">Address line 2</label>
-                                                <input placeholder="unit no." type="text" value="@Model.User.AddressLine2" class="form-control" name="Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+                                                <input placeholder="unit no." type="text" asp-for="@Model.User.AddressLine2" class="form-control" name="AddressLine2" required>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +137,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group required">
                                                 <label class="col-form-label">City</label>
-                                                <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.City" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <input type="text" placeholder="e.g Port Elizabeth" asp-for="@Model.User.City" class="form-control" name="City" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
@@ -117,61 +148,198 @@
                                                     <option value="">Select Province</option>
                                                     @foreach (var province in Model.Provinces)
                                                     {
-                                                        <option value="@province.Id">@province.Name</option>
+                                                        if (province.Id == Model.User.ProvinceId)
+                                                        {
+                                                            <option selected value="@province.Id">@province.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@province.Id">@province.Name</option>
+                                                        }
+
                                                     }
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
                                 </form>
                             </div>
+                           
                             <div class="tab-pane fade" id="v-pills-school" role="tabpanel" aria-labelledby="v-pills-school-tab">
-                                <form name="profileForm" role="form" class="form-horizontal">
+                                <form name="profileForm" asp-controller="Users" asp-action="EditLearner" method="post" role="form" class="form-horizontal">
+                                    <input type="hidden" value="@Model.User?.Learner?.Id" name="Id" />
+                                    <input type="hidden" value="@Model.User?.Id" name="UserId" />
+                                    <input type="hidden" value="@Model.User?.TenantId" name="TenantId" />
                                     <div class="row m-0 p-0">
                                         <div class="col-md-6">
                                             <div class="form-group required">
-                                                <label class="col-form-label">First name</label>
-                                                <input placeholder="e.g " type="text" value="@Model.User.Name" class="form-control" name="Name" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <label class="col-form-label">Id number</label>
+                                                <input placeholder="e.g " type="text" value="@Model.User?.Learner?.IdNumber" class="form-control" name="IdNumber" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group required">
-                                                <label class="col-form-label">Last name</label>
-                                                <input placeholder="unit no." type="text" value="@Model.User.Surname" class="form-control" name="Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+                                                <label class="col-form-label">Date of birth</label>
+                                                <div class="input-group date" id="dateOfBirthPicker">
+                                                    <input placeholder="dd-mm-yyyy" value="@Model.User?.Learner?.DateOfBirth" name="DateOfBirth" type='text' class="form-control" />
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <i class="bi-calendar-event"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="row m-0 p-0">
                                         <div class="col-md-6">
                                             <div class="form-group required">
-                                                <label class="col-form-label">Email address</label>
-                                                <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.EmailAddress" class="form-control" name="EmailAddress" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <label class="col-form-label">Grade</label>
+                                                <select class="form-control" asp-for="@Model.User.Learner.Grade" name="Grade">
+                                                    <option value="">Select Grade</option>
+                                                    <option value="0">Grade 8</option>
+                                                    <option value="1">Grade 9</option>
+                                                    <option value="2">Grade 10</option>
+                                                    <option value="3">Grade 11</option>
+                                                    <option value="4">Grade 12</option>
+                                                </select>
+
 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group required">
-                                                <label class="col-form-label">Phone number</label>
-                                                <input type="text" placeholder="e.g Port Elizabeth" value="@Model.User.PhoneNumber" class="form-control" name="PhoneNumber" required maxlength="@AbpUserBase.MaxNameLength">
+                                                <label class="col-form-label">Stream</label>
+                                                <input type="text" placeholder="e.g Maths & Physics" value="@Model.User?.Learner?.Stream" class="form-control" name="Stream" required maxlength="@AbpUserBase.MaxNameLength">
 
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row m-0 p-0">
+                                        <div class="col-md-12">
+                                            <div class="form-group required">
+                                                <label class="col-form-label">Grade</label>
+                                                <select asp-for="@Model.User.Learner.SchoolId" class="form-control" name="SchoolId">
+                                                    <option value="">Select Grade</option>
+                                                    @foreach (var school in Model.Schools)
+                                                    {
+                                                        <option value="@school.Id">@school.Name</option>
+                                                    }
+
+                                                </select>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="v-pills-duties" role="tabpanel" aria-labelledby="v-pills-duties-tab">
+                                <form id="EducationalInfoEditForm" name="educationalInfoForm" asp-controller="Users" asp-action="EditStaff" method="post" role="form" class="form-horizontal">
+                                    <input type="hidden" value="@Model.User?.Staff?.Id" name="Id" />
+                                    <input type="hidden" value="@Model.User?.Id" name="UserId" />
+                                    <input type="hidden" value="@Model.User?.TenantId" name="TenantId" />
+                                    <div class="row m-0 p-0">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Duties</label>
+                                                <textarea class="form-control" rows="5" placeholder="e.g Menoring, Tutoring etc" name="Duties">@Model.User?.Staff?.Duties</textarea>
 
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+
+                               
                             </div>
                             <div class="tab-pane fade" id="v-pills-subjects" role="tabpanel" aria-labelledby="v-pills-subjects-tab">
+                                <form name="profileForm" role="form" class="form-horizontal">
+                                    <input type="hidden" value="@Model.User?.Learner?.Id" name="Id" />
+                                    @if (Model.User.RoleNames.Any(x=>x.ToLower() == "learner"))
+                                    {
+                                        if (Model.User?.Learner == null || Model.User?.Learner?.LearnerSubjects.Count == 0)
+                                        {
+                                            <div style="height: 70vh">
+                                                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                    <div class="text-center text-secondary">
+                                                        <i style="font-size: 3rem" class="bi bi-hourglass"></i>
+                                                        <h4>No Subjects</h4>
+                                                        <a href="javascript:void(0);" class="nav-link text-primary">Add</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @Model.User?.Learner?.LearnerSubjects
+                                                </div>
+                                            </div>
+                                        }
 
+
+
+                                    }
+                                    else if (Model.User.RoleNames.Any(x=>x.ToLower() == "mentor"))
+                                    {
+                                        if (Model.User?.Staff == null || Model.User?.Staff?.StaffSubjects.Count == 0)
+                                        {
+                                            <div style="height: 70vh">
+                                                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                    <div class="text-center text-secondary">
+                                                        <i style="font-size: 3rem" class="bi bi-hourglass"></i>
+                                                        <h4>No Subjects</h4>
+                                                        <a href="javascript:void(0);" class="nav-link text-primary">Add</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @Model.User?.Staff?.StaffSubjects
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="v-pills-reports" role="tabpanel" aria-labelledby="v-pills-reports-tab">
+                                <form name="profileForm" role="form" class="form-horizontal">
+                                    <input type="hidden" value="@Model.User?.Staff?.Id" name="Id" />
+                                   
+                                    <div style="height: 70vh">
+                                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                            <div class="text-center text-secondary">
+                                                <i style="font-size: 3rem" class="bi bi-hourglass"></i>
+                                                <h4>No Progress Reports</h4>
+                                                <a href="javascript:void(0);" class="nav-link text-primary">Add</a>
+                                            </div>
+                                        </div>
+                                    </div>
 
+
+                                   
+                                </form>
                             </div>
                         </div>
-                       
-                        
+
+
                     </div>
                 </div>
             </div>

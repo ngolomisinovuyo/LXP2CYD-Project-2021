@@ -22,6 +22,8 @@ using LXP2CYD.Authorization.Accounts;
 using LXP2CYD.Authorization.Roles;
 using LXP2CYD.Authorization.Users;
 using LXP2CYD.Authorization.Users.Staffs;
+using LXP2CYD.Leaners.Dtos;
+using LXP2CYD.LearnerModels.Learners;
 using LXP2CYD.Roles.Dto;
 using LXP2CYD.Settings.Provinces;
 using LXP2CYD.Settings.Provinces.Dto;
@@ -34,13 +36,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LXP2CYD.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
+    [AbpAuthorize(PermissionNames.Pages_Users, PermissionNames.Pages_Staff, PermissionNames.Pages_Learners)]
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<Staff, long> _staffRepository;
+        private readonly IRepository<Learner, long> _learnerRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
@@ -59,7 +63,8 @@ namespace LXP2CYD.Users
             IWebHostEnvironment environment,
             IRepository<Region, int> regionRepository,
             IRepository<Province, int> provinceRepository,
-            LogInManager logInManager)
+            IRepository<Learner, long> learnerRepository,
+        LogInManager logInManager)
             : base(repository)
         {
             _userManager = userManager;
@@ -72,6 +77,8 @@ namespace LXP2CYD.Users
             _regionRepository = regionRepository;
             _provinceRepository = provinceRepository;
             _staffRepository = staffRepository;
+            _learnerRepository = learnerRepository;
+            _userRepository = repository;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -232,6 +239,8 @@ namespace LXP2CYD.Users
             return user;
         }
 
+
+
         protected override IQueryable<User> ApplySorting(IQueryable<User> query, PagedUserResultRequestDto input)
         {
             return query.OrderBy(r => r.UserName);
@@ -242,6 +251,21 @@ namespace LXP2CYD.Users
             identityResult.CheckErrors(LocalizationManager);
         }
 
+        
+        public async Task<StaffDto> GetStaffByUserId(long userId)
+        {
+            var staff = await _staffRepository.GetAll().Include(x=>x.StaffSubjects)
+                .ThenInclude(x=>x.Subject)
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+            return ObjectMapper.Map<StaffDto>(staff);
+        }
+        public async Task<LearnerDto> GetLearnerByUserId(long userId)
+        {
+            var learner = await _learnerRepository.GetAll().Include(x=>x.LearnerSubjects)
+                .ThenInclude(x=>x.Subject)
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+            return ObjectMapper.Map<LearnerDto>(learner);
+        }
         public async Task<bool> ChangePassword(ChangePasswordDto input)
         {
             await _userManager.InitializeOptionsAsync(AbpSession.TenantId);

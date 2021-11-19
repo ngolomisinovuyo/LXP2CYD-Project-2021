@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using LXP2CYD.LearnerModels.Schools;
+using LXP2CYD.LearnerModels.Subjects;
 
 namespace LXP2CYD.LearnerModels.Learners
 {
@@ -18,6 +20,8 @@ namespace LXP2CYD.LearnerModels.Learners
         public Grade? Grade { get; set; }
         [ForeignKey(nameof(SchoolId))]
         public School School { get; set; }
+
+        public IReadOnlyList<LearnerSubject>  LearnerSubjects { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using LXP2CYD.Leaners.Dtos.LearnerSubjects;
 using LXP2CYD.LearnerModels.Learners;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,7 @@ namespace LXP2CYD.Leaners.Dtos
         public string Stream { get; set; }
         public int? SchoolId { get; set; }
         public Grade? Grade { get; set; }
+
+        public IReadOnlyList<LearnerSubjectDto> LearnerSubjects { get; set; }
     }
 }

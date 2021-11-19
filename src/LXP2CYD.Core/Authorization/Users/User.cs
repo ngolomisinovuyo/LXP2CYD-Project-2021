@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using LXP2CYD.Authorization.Users.Staffs;
+using LXP2CYD.LearnerModels.Learners;
 using LXP2CYD.Settings.Provinces;
 using LXP2CYD.Settings.Regions;
 
@@ -24,6 +26,9 @@ namespace LXP2CYD.Authorization.Users
 
         [ForeignKey(nameof(RegionId))]
         public Region Region { get; set; }
+
+        public Staff Staff { get; set; }
+        public Learner Learner { get; set; }
 
         public static string CreateRandomPassword()
         {

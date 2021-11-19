@@ -8,6 +8,9 @@
         public const string Appointments = "Appointments";
         public const string Bursaries = "Bursaries";
         public const string Programmes = "Programmes";
+        public const string Subjects = "Subjects";
+        public const string Students = "Students";
+        public const string Mentors = "Mentors";
         public const string YearPlans = "Year Plans";
         public const string Tenants = "Tenants";
         public const string Users = "Users";

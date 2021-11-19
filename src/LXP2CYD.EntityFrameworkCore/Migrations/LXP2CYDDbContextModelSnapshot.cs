@@ -1583,12 +1583,16 @@ namespace LXP2CYD.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("AppStaffs");
                 });
@@ -1930,6 +1934,9 @@ namespace LXP2CYD.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("AppLearners");
                 });
@@ -2800,8 +2807,8 @@ namespace LXP2CYD.Migrations
             modelBuilder.Entity("LXP2CYD.Authorization.Users.Staffs.Staff", b =>
                 {
                     b.HasOne("LXP2CYD.Authorization.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Staff")
+                        .HasForeignKey("LXP2CYD.Authorization.Users.Staffs.Staff", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2866,13 +2873,19 @@ namespace LXP2CYD.Migrations
                         .WithMany()
                         .HasForeignKey("SchoolId");
 
+                    b.HasOne("LXP2CYD.Authorization.Users.User", null)
+                        .WithOne("Learner")
+                        .HasForeignKey("LXP2CYD.LearnerModels.Learners.Learner", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("School");
                 });
 
             modelBuilder.Entity("LXP2CYD.LearnerModels.Subjects.LearnerSubject", b =>
                 {
                     b.HasOne("LXP2CYD.LearnerModels.Learners.Learner", "Learner")
-                        .WithMany()
+                        .WithMany("LearnerSubjects")
                         .HasForeignKey("LearnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2891,7 +2904,7 @@ namespace LXP2CYD.Migrations
             modelBuilder.Entity("LXP2CYD.LearnerModels.Subjects.StaffSubject", b =>
                 {
                     b.HasOne("LXP2CYD.Authorization.Users.Staffs.Staff", "Staff")
-                        .WithMany()
+                        .WithMany("StaffSubjects")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3068,9 +3081,16 @@ namespace LXP2CYD.Migrations
                     b.Navigation("Permissions");
                 });
 
+            modelBuilder.Entity("LXP2CYD.Authorization.Users.Staffs.Staff", b =>
+                {
+                    b.Navigation("StaffSubjects");
+                });
+
             modelBuilder.Entity("LXP2CYD.Authorization.Users.User", b =>
                 {
                     b.Navigation("Claims");
+
+                    b.Navigation("Learner");
 
                     b.Navigation("Logins");
 
@@ -3080,7 +3100,14 @@ namespace LXP2CYD.Migrations
 
                     b.Navigation("Settings");
 
+                    b.Navigation("Staff");
+
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("LXP2CYD.LearnerModels.Learners.Learner", b =>
+                {
+                    b.Navigation("LearnerSubjects");
                 });
 
             modelBuilder.Entity("LXP2CYD.Programmes.Programme", b =>

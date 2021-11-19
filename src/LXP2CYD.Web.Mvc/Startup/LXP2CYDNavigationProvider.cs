@@ -41,6 +41,24 @@ namespace LXP2CYD.Web.Startup
                 )
                 .AddItem(
                     new MenuItemDefinition(
+                        PageNames.Students,
+                        L("Students"),
+                        url: "Students",
+                        icon: "bi-people",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Learners)
+                    )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Mentors,
+                        L("Mentors"),
+                        url: "Mentors",
+                        icon: "bi-people",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff)
+                    )
+                )
+                .AddItem(
+                    new MenuItemDefinition(
                         PageNames.Appointments,
                         L("Appointments"),
                         url: "Appointments",
@@ -60,7 +78,7 @@ namespace LXP2CYD.Web.Startup
                 )
                 .AddItem(
                     new MenuItemDefinition(
-                        PageNames.YearPlans,
+                        PageNames.Bursaries,
                         L("Bursaries"),
                         url: "Bursaries",
                         icon: "bi bi-mortarboard",
@@ -70,14 +88,25 @@ namespace LXP2CYD.Web.Startup
                 )
                 .AddItem(
                     new MenuItemDefinition(
-                        PageNames.YearPlans,
+                        PageNames.Programmes,
                         L("Programmes"),
                         url: "Programmes",
                         icon: "bi bi-calendar-event",
                         requiresAuthentication: true,
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff, PermissionNames.Pages_Learners)
                     )
-                ).AddItem(
+                )
+                .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Subjects,
+                        L("Subjects"),
+                        url: "Subjects",
+                        icon: "bi bi-book",
+                        requiresAuthentication: true,
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Staff, PermissionNames.Pages_Learners)
+                    )
+                )
+                .AddItem(
                     new MenuItemDefinition(
                         PageNames.Roles,
                         L("Roles"),

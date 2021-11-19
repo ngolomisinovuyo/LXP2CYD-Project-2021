@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
 using LXP2CYD.Authorization.Users;
+using LXP2CYD.Leaners.Dtos;
 using LXP2CYD.Settings.Provinces.Dto;
 using LXP2CYD.Settings.Regions.Dto;
 
@@ -33,9 +34,11 @@ namespace LXP2CYD.Users.Dto
         public string PostalCode { get; set; }
         public int? ProvinceId { get; set; }
         public int? RegionId { get; set; }
-
+        public int? TenantId { get; set; }
         public RegionDto Region { get; set; }
         public ProvinceDto Province { get; set; }
+        public StaffDto Staff { get; set; }
+        public LearnerDto Learner { get; set; }
 
         public bool IsActive { get; set; }
 

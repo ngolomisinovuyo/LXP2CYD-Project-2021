@@ -11,6 +11,9 @@
         <text name="Liaisons" value="Liasions" />
 		<text name="Programmes" value="Programmes" />
 		<text name="Bursaries" value="Bursaries" />
+        <text name="Subjects" value="Subjects" />
+        <text name="Students" value="Students" />
+        <text name="Mentors" value="Mentors" />
         <text name="Description" value="Description"/>
 		<text name="WelcomeMessage" value="Welcome to LXP2CYD!" />
 		<text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />

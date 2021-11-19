@@ -56,6 +56,9 @@
     <Folder Include="Models\Tenants\" />
     <Folder Include="wwwroot\Templates\" />
     <Folder Include="wwwroot\Templates\Email\" />
+    <Folder Include="Views\YearPlans\" />
+    <Folder Include="Models\YearPlans\" />
+    <Folder Include="wwwroot\view-resources\Views\YearPlans\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Regions\Index.cshtml" />

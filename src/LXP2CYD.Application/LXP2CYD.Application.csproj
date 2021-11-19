@@ -21,5 +21,11 @@
     <Folder Include="Settings\Regions\Dto\" />
     <Folder Include="Settings\Provinces\" />
     <Folder Include="Settings\Provinces\Dto\" />
+    <Folder Include="YearPlans\" />
+    <Folder Include="YearPlans\Dtos\" />
+    <Folder Include="YearPlans\Dtos\Items\" />
+    <Folder Include="YearPlans\Dtos\BudgetItems\" />
+    <Folder Include="Leaners\Dtos\LearnerSubjects\" />
+    <Folder Include="Users\Dto\StaffSubjects\" />
   </ItemGroup>
 </Project>
