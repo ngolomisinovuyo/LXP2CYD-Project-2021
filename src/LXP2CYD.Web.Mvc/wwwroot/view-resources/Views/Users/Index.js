@@ -86,14 +86,18 @@
             }
         }
     });
-    $('#dateOfBirthPicker').datetimepicker({
-        "allowInputToggle": true,
-        "showClose": true,
-        "showClear": true,
-        "showTodayButton": true,
-        "format": "DD-MM-YYYY",
+    const dateOfBirthPicker = $('#dateOfBirthPicker');
+    if (dateOfBirthPicker.html()) {
+        dateOfBirthPicker.datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "DD-MM-YYYY",
 
-    });
+        });
+    }
+    
     _$form.find('.save-button').on('click', (e) => {
         e.preventDefault();
 

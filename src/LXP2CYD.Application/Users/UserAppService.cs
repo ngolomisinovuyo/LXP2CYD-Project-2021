@@ -141,6 +141,7 @@ namespace LXP2CYD.Users
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
+            input.TenantId = AbpSession.TenantId;
 
             var user = await _userManager.GetUserByIdAsync(input.Id);
 
